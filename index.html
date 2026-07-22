@@ -6,16 +6,17 @@
     <title>Portal de Servicios | Multiservicios Nassim</title>
     <meta name="description" content="Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.">
     
-    <!-- Fuentes e Iconos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --primary: #0A2540;
+            --primary-light: #1a3a5c;
             --secondary: #1E88E5;
+            --secondary-light: #42A5F5;
             --accent: #FF8C00;
             --accent-hover: #E67E00;
             --bg: #F1F5F9;
@@ -26,142 +27,375 @@
             --error: #EF4444;
             --radius: 16px;
             --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(10, 37, 64, 0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
             color: var(--text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #1E88E5 100%);
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        /* =========================================
+           ENTORNO DECORATIVO DE FONDO
+           ========================================= */
+        .bg-decor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-circle-1 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #42A5F5, transparent);
+            top: -100px; right: -100px;
+        }
+
+        .bg-circle-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #FF8C00, transparent);
+            bottom: -150px; left: -150px;
+            opacity: 0.25;
+            animation-delay: -7s;
+        }
+
+        .bg-circle-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, #1E88E5, transparent);
+            top: 40%; left: 50%;
+            opacity: 0.3;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        .bg-icons {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 3rem;
+            animation: drift 25s infinite linear;
+        }
+
+        .bg-icon:nth-child(1) { top: 10%; left: 5%; font-size: 2.5rem; }
+        .bg-icon:nth-child(2) { top: 25%; right: 8%; animation-delay: -5s; font-size: 3.5rem; }
+        .bg-icon:nth-child(3) { top: 50%; left: 10%; animation-delay: -10s; font-size: 2rem; }
+        .bg-icon:nth-child(4) { top: 70%; right: 15%; animation-delay: -15s; font-size: 3rem; }
+        .bg-icon:nth-child(5) { top: 85%; left: 20%; animation-delay: -20s; font-size: 2.5rem; }
+        .bg-icon:nth-child(6) { top: 40%; right: 5%; animation-delay: -8s; font-size: 2rem; }
+
+        @keyframes drift {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
+            50% { opacity: 0.12; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0.05; }
+        }
+
+        /* =========================================
+           HEADER
+           ========================================= */
         .app-header {
-            background: var(--surface);
-            padding: 1rem 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: rgba(10, 37, 64, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .brand {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: #FFFFFF;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
-        .brand span { color: var(--secondary); }
+        .brand-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+        }
+
+        .brand span { 
+            background: linear-gradient(135deg, var(--secondary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
         .btn-icon {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* =========================================
+           CONTENEDOR PRINCIPAL
+           ========================================= */
         .app-container {
             flex: 1;
             max-width: 600px;
             width: 100%;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         .progress-container { margin-bottom: 2rem; }
 
         .progress-bar {
             height: 6px;
-            background: #E2E8F0;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .progress-fill {
             height: 100%;
-            background: var(--secondary);
+            background: linear-gradient(90deg, var(--secondary-light), var(--accent));
             width: 25%;
             transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
 
         .progress-steps {
             display: flex;
             justify-content: space-between;
             font-size: 0.75rem;
-            color: var(--text-light);
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 600;
         }
 
-        .step-active { color: var(--secondary); }
+        .step-active { color: #FFFFFF; }
 
+        /* =========================================
+           TARJETA CON GLASSMORPHISM
+           ========================================= */
         .card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
             animation: fadeIn 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h2 { font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; }
+        h2 { 
+            font-size: 1.5rem; 
+            color: var(--primary); 
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+        .subtitle { 
+            color: var(--text-light); 
+            margin-bottom: 1.5rem; 
+            font-size: 0.95rem; 
+        }
 
-        .service-options { display: grid; gap: 1rem; }
+        /* =========================================
+           SELECTOR DE SERVICIOS
+           ========================================= */
+        .service-options { display: grid; gap: 0.85rem; }
 
         .service-option {
             border: 2px solid #E2E8F0;
-            border-radius: 12px;
-            padding: 1rem;
+            border-radius: 14px;
+            padding: 1.1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s;
             display: flex;
             align-items: center;
             gap: 1rem;
+            background: #FAFBFC;
         }
 
-        .service-option:hover { border-color: var(--secondary); background: #F8FAFC; }
+        .service-option:hover { 
+            border-color: var(--secondary); 
+            background: #F0F7FF;
+            transform: translateX(4px);
+        }
         .service-option.selected { 
             border-color: var(--secondary); 
-            background: rgba(30, 136, 229, 0.05);
-            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+            background: linear-gradient(135deg, rgba(30, 136, 229, 0.08), rgba(255, 140, 0, 0.05));
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.15);
         }
 
         .service-option i {
             font-size: 1.5rem;
             color: var(--secondary);
-            width: 40px;
-            text-align: center;
+            width: 45px; height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 136, 229, 0.1);
+            border-radius: 10px;
+            transition: all 0.25s;
         }
 
-        .service-info h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .service-option.selected i {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .service-info h4 { font-size: 1rem; margin-bottom: 0.25rem; color: var(--primary); }
         .service-info p { font-size: 0.85rem; color: var(--text-light); }
 
-        .form-group { margin-bottom: 1.25rem; }
+        /* =========================================
+           🆕 FORMULARIOS MEJORADOS
+           ========================================= */
+        
+        /* Bloque de sección (agrupa campos relacionados) */
+        .form-section {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #E2E8F0;
+        }
+
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed #CBD5E1;
+        }
+
+        .form-section-title i {
+            font-size: 0.9rem;
+        }
+
+        .form-group { 
+            margin-bottom: 1.25rem; 
+            position: relative;
+        }
+
+        .form-group:last-child { margin-bottom: 0; }
         
         label {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--primary);
+        }
+
+        label .label-icon {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            opacity: 0.7;
+        }
+
+        /* Input con icono a la izquierda */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: #94A3B8;
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select,
+        .input-wrapper textarea {
+            padding-left: 2.75rem;
         }
 
         input, select, textarea {
@@ -171,24 +405,197 @@
             border-radius: 10px;
             font-family: inherit;
             font-size: 1rem;
-            transition: border-color 0.2s;
-            background: var(--surface);
+            transition: all 0.2s;
+            background: #FAFBFC;
+            color: var(--text);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #94A3B8;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+        }
+
+        input:focus ~ .input-icon,
+        .input-wrapper:focus-within .input-icon {
+            color: var(--secondary);
+        }
+
+        /* Validación visual en tiempo real */
+        .validation-icon {
+            position: absolute;
+            right: 1rem;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .validation-icon.show { opacity: 1; }
+        .validation-icon.valid { color: var(--success); }
+        .validation-icon.invalid { color: var(--error); }
+
+        /* Estado de error */
+        .input-error { 
+            border-color: var(--error) !important;
+            background: #FEF2F2 !important;
+        }
+
+        .input-error:focus {
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .input-success {
+            border-color: var(--success) !important;
         }
 
         .error-msg {
             color: var(--error);
             font-size: 0.8rem;
-            margin-top: 0.25rem;
+            margin-top: 0.35rem;
             display: none;
+            align-items: center;
+            gap: 0.35rem;
         }
 
-        .input-error { border-color: var(--error) !important; }
+        .error-msg.show {
+            display: flex;
+        }
 
+        .error-msg i {
+            font-size: 0.75rem;
+        }
+
+        /* Select personalizado */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8;
+            pointer-events: none;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .select-wrapper:focus-within::after {
+            color: var(--secondary);
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            padding-right: 2.5rem;
+        }
+
+        /* 🆕 Contador +/- para adultos/menores */
+        .counter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .counter-group:focus-within {
+            border-color: var(--secondary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+        }
+
+        .counter-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            color: var(--secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        .counter-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .counter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .counter-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .counter-btn:disabled:hover {
+            background: white;
+            color: var(--secondary);
+        }
+
+        .counter-input {
+            flex: 1;
+            text-align: center;
+            border: none !important;
+            background: transparent !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            padding: 0.5rem !important;
+            box-shadow: none !important;
+            -moz-appearance: textfield;
+        }
+
+        .counter-input::-webkit-outer-spin-button,
+        .counter-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .counter-input:focus {
+            box-shadow: none !important;
+        }
+
+        /* Grid para dos columnas */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 400px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        /* =========================================
+           BOTONES
+           ========================================= */
         .actions {
             display: flex;
             gap: 1rem;
@@ -208,26 +615,41 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            font-family: inherit;
         }
 
-        .btn-secondary { background: #E2E8F0; color: var(--text); }
-        .btn-secondary:hover { background: #CBD5E1; }
+        .btn-secondary { 
+            background: #F1F5F9; 
+            color: var(--primary);
+            border: 2px solid #E2E8F0;
+        }
+        .btn-secondary:hover { background: #E2E8F0; }
 
         .btn-primary {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
             color: white;
-            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
         }
-        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.5);
+        }
 
         .btn-whatsapp {
-            background: #25D366;
+            background: linear-gradient(135deg, #25D366, #20BA5A);
             color: white;
             width: 100%;
             margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
         }
-        .btn-whatsapp:hover { background: #20BA5A; }
+        .btn-whatsapp:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+        }
 
+        /* =========================================
+           RESUMEN
+           ========================================= */
         .summary-item {
             display: flex;
             justify-content: space-between;
@@ -238,11 +660,13 @@
         .summary-label { color: var(--text-light); font-size: 0.9rem; }
         .summary-value { font-weight: 600; color: var(--primary); text-align: right; }
 
+        /* =========================================
+           PANTALLA DE ÉXITO
+           ========================================= */
         .success-screen { text-align: center; padding: 2rem 1rem; }
         .success-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(16, 185, 129, 0.1);
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
             color: var(--success);
             border-radius: 50%;
             display: flex;
@@ -250,29 +674,56 @@
             justify-content: center;
             font-size: 2.5rem;
             margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
         }
 
         .hidden { display: none !important; }
         
         @media (max-width: 480px) {
-            .app-container { padding: 1rem; }
-            .card { padding: 1.25rem; }
+            .app-container { padding: 1.25rem 1rem; }
+            .card { padding: 1.5rem; }
             h2 { font-size: 1.25rem; }
+            .brand { font-size: 1.15rem; }
+            .brand-icon { width: 36px; height: 36px; }
+            .bg-icon { font-size: 2rem !important; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Fondo decorativo -->
+    <div class="bg-decor">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-circle bg-circle-3"></div>
+    </div>
+
+    <div class="bg-icons">
+        <i class="fas fa-plane bg-icon"></i>
+        <i class="fas fa-ship bg-icon"></i>
+        <i class="fas fa-suitcase bg-icon"></i>
+        <i class="fas fa-home bg-icon"></i>
+        <i class="fas fa-file-alt bg-icon"></i>
+        <i class="fas fa-globe bg-icon"></i>
+    </div>
+
+    <!-- Header -->
     <header class="app-header">
         <div class="brand">
-            <i class="fas fa-layer-group"></i>
-            Multiservicios <span>Nassim</span>
+            <div class="brand-icon">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <div>
+                Multiservicios <span>Nassim</span>
+            </div>
         </div>
         <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar">
             <i class="fas fa-phone"></i>
+            <span>Llamar</span>
         </a>
     </header>
 
+    <!-- Contenido principal -->
     <main class="app-container">
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar">
@@ -286,7 +737,7 @@
             </div>
         </div>
 
-        <!-- PASO 1: Selección de Servicio -->
+        <!-- PASO 1 -->
         <div id="step1" class="card step-content">
             <h2>¿Qué necesitas?</h2>
             <p class="subtitle">Toca el servicio que deseas solicitar para abrir el formulario al instante.</p>
@@ -330,7 +781,7 @@
             </div>
         </div>
 
-        <!-- PASO 2: Detalles del Servicio (Dinámico) -->
+        <!-- PASO 2 -->
         <div id="step2" class="card step-content hidden">
             <h2 id="step2Title">Detalles del Servicio</h2>
             <p class="subtitle" id="step2Subtitle">Cuéntanos un poco más para darte el mejor presupuesto.</p>
@@ -349,32 +800,68 @@
             </div>
         </div>
 
-        <!-- PASO 3: Datos de Contacto -->
+        <!-- PASO 3 -->
         <div id="step3" class="card step-content hidden">
             <h2>Tus Datos de Contacto</h2>
             <p class="subtitle">Necesitamos esta información para contactarte rápidamente.</p>
             
             <form id="contactForm">
                 <div class="form-group">
-                    <label for="nombre">Nombre completo *</label>
-                    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required>
-                    <div class="error-msg">Por favor, introduce tu nombre.</div>
+                    <label for="nombre">
+                        <i class="fas fa-user label-icon"></i>
+                        Nombre completo *
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required oninput="validateField(this, 'nombre')">
+                        <i class="fas fa-check-circle validation-icon" id="nombre-valid"></i>
+                        <i class="fas fa-times-circle validation-icon" id="nombre-invalid"></i>
+                    </div>
+                    <div class="error-msg" id="nombre-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Por favor, introduce tu nombre.
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="telefono">Teléfono / WhatsApp *</label>
-                    <input type="tel" id="telefono" placeholder="Ej: 631 419 471" required>
-                    <div class="error-msg">Introduce un teléfono válido (9 dígitos).</div>
+                    <label for="telefono">
+                        <i class="fas fa-phone label-icon"></i>
+                        Teléfono / WhatsApp *
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-mobile-alt input-icon"></i>
+                        <input type="tel" id="telefono" placeholder="Ej: 631 419 471" required oninput="validateField(this, 'telefono')">
+                        <i class="fas fa-check-circle validation-icon" id="telefono-valid"></i>
+                        <i class="fas fa-times-circle validation-icon" id="telefono-invalid"></i>
+                    </div>
+                    <div class="error-msg" id="telefono-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Introduce un teléfono válido (9 dígitos).
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Correo electrónico (Opcional)</label>
-                    <input type="email" id="email" placeholder="tu@email.com">
+                    <label for="email">
+                        <i class="fas fa-envelope label-icon"></i>
+                        Correo electrónico (Opcional)
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-at input-icon"></i>
+                        <input type="email" id="email" placeholder="tu@email.com" oninput="validateField(this, 'email')">
+                        <i class="fas fa-check-circle validation-icon" id="email-valid"></i>
+                        <i class="fas fa-times-circle validation-icon" id="email-invalid"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="comentarios">Comentarios adicionales</label>
-                    <textarea id="comentarios" rows="3" placeholder="¿Algo más que debamos saber?"></textarea>
+                    <label for="comentarios">
+                        <i class="fas fa-comment label-icon"></i>
+                        Comentarios adicionales
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-comment-dots input-icon" style="top: 1rem;"></i>
+                        <textarea id="comentarios" rows="3" placeholder="¿Algo más que debamos saber?"></textarea>
+                    </div>
                 </div>
             </form>
 
@@ -388,7 +875,7 @@
             </div>
         </div>
 
-        <!-- PASO 4: Resumen y Envío -->
+        <!-- PASO 4 -->
         <div id="step4" class="card step-content hidden">
             <h2>Revisa tu Solicitud</h2>
             <p class="subtitle">Asegúrate de que todo esté correcto antes de enviar.</p>
@@ -405,7 +892,7 @@
             </div>
         </div>
 
-        <!-- PANTALLA DE ÉXITO -->
+        <!-- ÉXITO -->
         <div id="successScreen" class="card success-screen hidden">
             <div class="success-icon">
                 <i class="fas fa-check"></i>
@@ -420,6 +907,9 @@
     </main>
 
     <script>
+        // ==========================================
+        // ESTADO Y CONFIGURACIÓN
+        // ==========================================
         const appState = {
             currentStep: 1,
             service: null,
@@ -428,26 +918,50 @@
             contact: {}
         };
 
+        // 🆕 Configuración de campos MEJORADA con iconos, bloques y contadores
         const serviceConfig = {
             equipaje: {
                 title: "Detalles del Envío",
                 subtitle: "Indica las características de tu equipaje o paquete.",
                 fields: `
-                    <div class="form-group">
-                        <label>Origen (Ciudad/País) *</label>
-                        <input type="text" id="detail_origen" required>
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-route"></i> Ruta del envío
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> Origen (Ciudad/País) *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-plane-departure input-icon"></i>
+                                <input type="text" id="detail_origen" placeholder="Ej: Madrid, España" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-pin label-icon"></i> Destino (Ciudad/País) *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-plane-arrival input-icon"></i>
+                                <input type="text" id="detail_destino" placeholder="Ej: Buenos Aires, Argentina" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Destino (Ciudad/País) *</label>
-                        <input type="text" id="detail_destino" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Número de bultos y peso aproximado *</label>
-                        <input type="text" id="detail_peso" placeholder="Ej: 2 maletas, 20kg cada una" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha estimada de envío</label>
-                        <input type="date" id="detail_fecha">
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-box"></i> Características del paquete
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-weight-hanging label-icon"></i> Bultos y peso *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-suitcase input-icon"></i>
+                                <input type="text" id="detail_peso" placeholder="Ej: 2 maletas, 20kg cada una" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar label-icon"></i> Fecha estimada de envío</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-calendar-alt input-icon"></i>
+                                <input type="date" id="detail_fecha">
+                            </div>
+                        </div>
                     </div>
                 `
             },
@@ -455,42 +969,95 @@
                 title: "Detalles del Viaje Marítimo",
                 subtitle: "¿A dónde quieres navegar? Buscaremos las mejores rutas.",
                 fields: `
-                    <div class="form-group">
-                        <label>Puerto de Origen *</label>
-                        <input type="text" id="detail_origen" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Puerto de Destino *</label>
-                        <input type="text" id="detail_destino" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de ida *</label>
-                        <input type="date" id="detail_fecha_ida" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de vuelta</label>
-                        <input type="date" id="detail_fecha_vuelta">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group">
-                            <label>Adultos *</label>
-                            <input type="number" id="detail_adultos" min="1" value="1" required>
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-anchor"></i> Ruta del viaje
                         </div>
                         <div class="form-group">
-                            <label>Menores</label>
-                            <input type="number" id="detail_menores" min="0" value="0">
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> Puerto de Origen *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-ship input-icon"></i>
+                                <input type="text" id="detail_origen" placeholder="Ej: Valencia" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-pin label-icon"></i> Puerto de Destino *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-flag-checkered input-icon"></i>
+                                <input type="text" id="detail_destino" placeholder="Ej: Palma de Mallorca" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-alt input-icon"></i>
+                                    <input type="date" id="detail_fecha_ida" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-check input-icon"></i>
+                                    <input type="date" id="detail_fecha_vuelta">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>¿Viaja con vehículo?</label>
-                        <select id="detail_vehiculo" onchange="toggleMarcaVehiculo(this.value)">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-users"></i> Pasajeros
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-user label-icon"></i> Adultos *</label>
+                                <div class="counter-group">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', -1, 1, 10)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" class="counter-input" id="detail_adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', 1, 1, 10)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-child label-icon"></i> Menores</label>
+                                <div class="counter-group">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', -1, 0, 10)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" class="counter-input" id="detail_menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', 1, 0, 10)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group hidden" id="marca_vehiculo_group">
-                        <label>Marca/Modelo del vehículo</label>
-                        <input type="text" id="detail_marca" placeholder="Ej: Ford Fiesta">
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-car"></i> Vehículo
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-question-circle label-icon"></i> ¿Viaja con vehículo?</label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-car input-icon"></i>
+                                <select id="detail_vehiculo" onchange="toggleMarcaVehiculo(this.value)">
+                                    <option value="No">No, viajo sin vehículo</option>
+                                    <option value="Sí">Sí, llevo vehículo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group hidden" id="marca_vehiculo_group">
+                            <label><i class="fas fa-car-side label-icon"></i> Marca/Modelo del vehículo</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-car input-icon"></i>
+                                <input type="text" id="detail_marca" placeholder="Ej: Ford Fiesta">
+                            </div>
+                        </div>
                     </div>
                 `
             },
@@ -498,30 +1065,71 @@
                 title: "Búsqueda de Vuelos",
                 subtitle: "Dinos tus preferencias y encontraremos el mejor precio.",
                 fields: `
-                    <div class="form-group">
-                        <label>Ciudad/Aeropuerto de Origen *</label>
-                        <input type="text" id="detail_origen" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Ciudad/Aeropuerto de Destino *</label>
-                        <input type="text" id="detail_destino" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de ida *</label>
-                        <input type="date" id="detail_fecha_ida" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de vuelta</label>
-                        <input type="date" id="detail_fecha_vuelta">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group">
-                            <label>Adultos *</label>
-                            <input type="number" id="detail_adultos" min="1" value="1" required>
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-route"></i> Ruta del vuelo
                         </div>
                         <div class="form-group">
-                            <label>Menores</label>
-                            <input type="number" id="detail_menores" min="0" value="0">
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> Ciudad/Aeropuerto de Origen *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-plane-departure input-icon"></i>
+                                <input type="text" id="detail_origen" placeholder="Ej: Madrid (MAD)" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-pin label-icon"></i> Ciudad/Aeropuerto de Destino *</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-plane-arrival input-icon"></i>
+                                <input type="text" id="detail_destino" placeholder="Ej: Roma (FCO)" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-alt input-icon"></i>
+                                    <input type="date" id="detail_fecha_ida" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-check input-icon"></i>
+                                    <input type="date" id="detail_fecha_vuelta">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-users"></i> Pasajeros
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-user label-icon"></i> Adultos *</label>
+                                <div class="counter-group">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', -1, 1, 10)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" class="counter-input" id="detail_adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', 1, 1, 10)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-child label-icon"></i> Menores</label>
+                                <div class="counter-group">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', -1, 0, 10)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" class="counter-input" id="detail_menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', 1, 0, 10)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `
@@ -530,26 +1138,40 @@
                 title: "Gestión de Citas Administrativas",
                 subtitle: "Cuéntanos qué trámite necesitas gestionar.",
                 fields: `
-                    <div class="form-group">
-                        <label>Tipo de trámite *</label>
-                        <select id="detail_tramite" required>
-                            <option value="">Selecciona una opción...</option>
-                            <option value="Extranjería (TIE, Prórroga, Nacionalidad)">Extranjería (TIE, Prórroga, Nacionalidad)</option>
-                            <option value="Registro Civil">Registro Civil</option>
-                            <option value="DNI/Pasaporte">DNI/Pasaporte</option>
-                            <option value="Otro">Otro (especificar en comentarios)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre del interesado (si es distinto al tuyo)</label>
-                        <input type="text" id="detail_interesado">
-                    </div>
-                    <div class="form-group">
-                        <label>Urgencia</label>
-                        <select id="detail_urgencia">
-                            <option value="Normal">Normal</option>
-                            <option value="Urgente">Urgente</option>
-                        </select>
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-file-alt"></i> Tipo de trámite
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-clipboard-list label-icon"></i> Trámite que necesitas *</label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-file-signature input-icon"></i>
+                                <select id="detail_tramite" required>
+                                    <option value="">Selecciona una opción...</option>
+                                    <option value="Extranjería (TIE, Prórroga, Nacionalidad)">Extranjería (TIE, Prórroga, Nacionalidad)</option>
+                                    <option value="Registro Civil">Registro Civil</option>
+                                    <option value="DNI/Pasaporte">DNI/Pasaporte</option>
+                                    <option value="Otro">Otro (especificar en comentarios)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user-tie label-icon"></i> Nombre del interesado (si es distinto)</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" id="detail_interesado" placeholder="Ej: María López">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-bolt label-icon"></i> Urgencia</label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-stopwatch input-icon"></i>
+                                <select id="detail_urgencia">
+                                    <option value="Normal">Normal (1-2 semanas)</option>
+                                    <option value="Urgente">Urgente (lo antes posible)</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 `
             },
@@ -557,35 +1179,61 @@
                 title: "Servicio Inmobiliario",
                 subtitle: "¿Buscas comprar, vender o alquilar en Murcia?",
                 fields: `
-                    <div class="form-group">
-                        <label>Operación *</label>
-                        <select id="detail_operacion" required>
-                            <option value="Comprar">Comprar</option>
-                            <option value="Vender">Vender</option>
-                            <option value="Alquilar">Alquilar</option>
-                        </select>
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-home"></i> Operación
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-handshake label-icon"></i> ¿Qué deseas hacer? *</label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-key input-icon"></i>
+                                <select id="detail_operacion" required>
+                                    <option value="Comprar">Comprar una propiedad</option>
+                                    <option value="Vender">Vender una propiedad</option>
+                                    <option value="Alquilar">Alquilar una propiedad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-building label-icon"></i> Tipo de propiedad *</label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-home input-icon"></i>
+                                <select id="detail_propiedad" required>
+                                    <option value="Piso/Apartamento">Piso/Apartamento</option>
+                                    <option value="Casa/Chalet">Casa/Chalet</option>
+                                    <option value="Local Comercial">Local Comercial</option>
+                                    <option value="Terreno">Terreno</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Tipo de propiedad *</label>
-                        <select id="detail_propiedad" required>
-                            <option value="Piso/Apartamento">Piso/Apartamento</option>
-                            <option value="Casa/Chalet">Casa/Chalet</option>
-                            <option value="Local Comercial">Local Comercial</option>
-                            <option value="Terreno">Terreno</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Zona de interés en Murcia</label>
-                        <input type="text" id="detail_zona" placeholder="Ej: Alcantarilla, Murcia centro...">
-                    </div>
-                    <div class="form-group">
-                        <label>Presupuesto aproximado</label>
-                        <input type="text" id="detail_presupuesto" placeholder="Ej: 150.000€">
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-map-marked-alt"></i> Preferencias
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> Zona de interés en Murcia</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-location-arrow input-icon"></i>
+                                <input type="text" id="detail_zona" placeholder="Ej: Alcantarilla, Murcia centro...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-euro-sign label-icon"></i> Presupuesto aproximado</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-wallet input-icon"></i>
+                                <input type="text" id="detail_presupuesto" placeholder="Ej: 150.000€">
+                            </div>
+                        </div>
                     </div>
                 `
             }
         };
 
+        // ==========================================
+        // LÓGICA DE NAVEGACIÓN (sin cambios)
+        // ==========================================
         function updateProgress(step) {
             const fill = document.getElementById('progressFill');
             fill.style.width = `${step * 25}%`;
@@ -604,11 +1252,8 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function prevStep(step) {
-            showStep(step);
-        }
+        function prevStep(step) { showStep(step); }
 
-        // CAMBIO CLAVE: Al hacer clic, selecciona y avanza automáticamente al Paso 2
         function selectService(serviceKey, element) {
             document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
@@ -621,12 +1266,91 @@
             document.getElementById('step2Subtitle').innerText = config.subtitle;
             document.getElementById('dynamicFields').innerHTML = config.fields;
             
-            // Avance automático sin necesidad de un segundo clic
-            setTimeout(() => {
-                showStep(2);
-            }, 200); // Pequeño delay para que se aprecie la selección visual
+            setTimeout(() => { showStep(2); }, 200);
         }
 
+        // ==========================================
+        // 🆕 FUNCIONES NUEVAS PARA CONTADORES
+        // ==========================================
+        function updateCounter(inputId, delta, min, max) {
+            const input = document.getElementById(inputId);
+            let value = parseInt(input.value) || 0;
+            value = Math.max(min, Math.min(max, value + delta));
+            input.value = value;
+            updateCounterButtons(input);
+        }
+
+        function updateCounterButtons(input) {
+            const group = input.closest('.counter-group');
+            const min = parseInt(input.getAttribute('min'));
+            const max = parseInt(input.getAttribute('max'));
+            const value = parseInt(input.value);
+            const buttons = group.querySelectorAll('.counter-btn');
+            
+            buttons[0].disabled = value <= min;
+            buttons[1].disabled = value >= max;
+        }
+
+        // ==========================================
+        // 🆕 VALIDACIÓN EN TIEMPO REAL
+        // ==========================================
+        function validateField(input, fieldName) {
+            const validIcon = document.getElementById(`${fieldName}-valid`);
+            const invalidIcon = document.getElementById(`${fieldName}-invalid`);
+            const errorMsg = document.getElementById(`${fieldName}-error`);
+            
+            if (!validIcon || !invalidIcon) return true;
+
+            let isValid = false;
+            const value = input.value.trim();
+
+            if (fieldName === 'nombre') {
+                isValid = value.length >= 2;
+            } else if (fieldName === 'telefono') {
+                const phoneRegex = /^[0-9]{9}$/;
+                isValid = phoneRegex.test(value.replace(/\s/g, ''));
+            } else if (fieldName === 'email') {
+                if (value === '') {
+                    // Email es opcional, si está vacío no mostramos nada
+                    validIcon.classList.remove('show');
+                    invalidIcon.classList.remove('show');
+                    input.classList.remove('input-error', 'input-success');
+                    return true;
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(value);
+            }
+
+            if (value === '' && fieldName !== 'email') {
+                validIcon.classList.remove('show');
+                invalidIcon.classList.remove('show');
+                input.classList.remove('input-error', 'input-success');
+                if (errorMsg) errorMsg.classList.remove('show');
+                return false;
+            }
+
+            if (isValid) {
+                validIcon.classList.add('show', 'valid');
+                validIcon.classList.remove('invalid');
+                invalidIcon.classList.remove('show');
+                input.classList.remove('input-error');
+                input.classList.add('input-success');
+                if (errorMsg) errorMsg.classList.remove('show');
+            } else {
+                invalidIcon.classList.add('show', 'invalid');
+                invalidIcon.classList.remove('valid');
+                validIcon.classList.remove('show');
+                input.classList.remove('input-success');
+                input.classList.add('input-error');
+                if (errorMsg) errorMsg.classList.add('show');
+            }
+
+            return isValid;
+        }
+
+        // ==========================================
+        // LÓGICA DE VEHÍCULO (sin cambios)
+        // ==========================================
         function toggleMarcaVehiculo(valor) {
             const marcaGroup = document.getElementById('marca_vehiculo_group');
             const marcaInput = document.getElementById('detail_marca');
@@ -640,6 +1364,9 @@
             }
         }
 
+        // ==========================================
+        // VALIDACIÓN Y NAVEGACIÓN
+        // ==========================================
         function validateAndNext(nextStepNum) {
             if (appState.currentStep === 2) {
                 const inputs = document.querySelectorAll('#dynamicFields input[required], #dynamicFields select[required]');
@@ -647,7 +1374,7 @@
                 appState.details = {};
 
                 inputs.forEach(input => {
-                    if (!input.value.trim()) {
+                    if (!input.value || input.value.toString().trim() === '') {
                         isValid = false;
                         input.classList.add('input-error');
                     } else {
@@ -663,33 +1390,26 @@
             } else if (appState.currentStep === 3) {
                 const nombre = document.getElementById('nombre');
                 const telefono = document.getElementById('telefono');
+                const email = document.getElementById('email');
                 let isValid = true;
                 
-                if (!nombre.value.trim()) {
-                    nombre.classList.add('input-error');
-                    nombre.nextElementSibling.style.display = 'block';
+                if (!validateField(nombre, 'nombre')) {
                     isValid = false;
-                } else {
-                    nombre.classList.remove('input-error');
-                    nombre.nextElementSibling.style.display = 'none';
-                    appState.contact.nombre = nombre.value;
                 }
-
-                const phoneRegex = /^[0-9]{9}$/;
-                if (!phoneRegex.test(telefono.value.replace(/\s/g, ''))) {
-                    telefono.classList.add('input-error');
-                    telefono.nextElementSibling.style.display = 'block';
+                if (!validateField(telefono, 'telefono')) {
                     isValid = false;
-                } else {
-                    telefono.classList.remove('input-error');
-                    telefono.nextElementSibling.style.display = 'none';
-                    appState.contact.telefono = telefono.value;
                 }
-
-                appState.contact.email = document.getElementById('email').value;
-                appState.contact.comentarios = document.getElementById('comentarios').value;
+                if (email.value.trim() && !validateField(email, 'email')) {
+                    isValid = false;
+                }
 
                 if (!isValid) return;
+
+                appState.contact.nombre = nombre.value;
+                appState.contact.telefono = telefono.value;
+                appState.contact.email = email.value;
+                appState.contact.comentarios = document.getElementById('comentarios').value;
+
                 generateSummary();
             }
             showStep(nextStepNum);
@@ -706,9 +1426,7 @@
 
             for (const [key, value] of Object.entries(appState.details)) {
                 const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                // No mostrar campo de marca si está vacío
                 if (key === 'marca' && !value) continue;
-                
                 html += `
                     <div class="summary-item">
                         <span class="summary-label">${label}</span>
@@ -778,6 +1496,11 @@
             document.getElementById('detailsForm').reset();
             document.getElementById('contactForm').reset();
             document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
+            
+            // Limpiar validaciones visuales
+            document.querySelectorAll('.validation-icon').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input, select, textarea').forEach(el => el.classList.remove('input-error', 'input-success'));
+            document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
             
             document.getElementById('successScreen').classList.add('hidden');
             document.getElementById('progressContainer').classList.remove('hidden');
