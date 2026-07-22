@@ -39,7 +39,6 @@
             flex-direction: column;
         }
 
-        /* Header App-like */
         .app-header {
             background: var(--surface);
             padding: 1rem 1.5rem;
@@ -72,7 +71,6 @@
             padding: 0.5rem;
         }
 
-        /* Contenedor Principal */
         .app-container {
             flex: 1;
             max-width: 600px;
@@ -83,10 +81,7 @@
             flex-direction: column;
         }
 
-        /* Barra de Progreso */
-        .progress-container {
-            margin-bottom: 2rem;
-        }
+        .progress-container { margin-bottom: 2rem; }
 
         .progress-bar {
             height: 6px;
@@ -113,7 +108,6 @@
 
         .step-active { color: var(--secondary); }
 
-        /* Tarjetas de Contenido */
         .card {
             background: var(--surface);
             border-radius: var(--radius);
@@ -127,23 +121,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h2 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
+        h2 { font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; }
 
-        .subtitle {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        /* Selector de Servicios */
-        .service-options {
-            display: grid;
-            gap: 1rem;
-        }
+        .service-options { display: grid; gap: 1rem; }
 
         .service-option {
             border: 2px solid #E2E8F0;
@@ -173,7 +154,6 @@
         .service-info h4 { font-size: 1rem; margin-bottom: 0.25rem; }
         .service-info p { font-size: 0.85rem; color: var(--text-light); }
 
-        /* Formularios */
         .form-group { margin-bottom: 1.25rem; }
         
         label {
@@ -209,7 +189,6 @@
 
         .input-error { border-color: var(--error) !important; }
 
-        /* Botones de Acción */
         .actions {
             display: flex;
             gap: 1rem;
@@ -231,10 +210,7 @@
             gap: 0.5rem;
         }
 
-        .btn-secondary {
-            background: #E2E8F0;
-            color: var(--text);
-        }
+        .btn-secondary { background: #E2E8F0; color: var(--text); }
         .btn-secondary:hover { background: #CBD5E1; }
 
         .btn-primary {
@@ -243,7 +219,6 @@
             box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
         }
         .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
-        .btn-primary:disabled { background: #CBD5E1; cursor: not-allowed; transform: none; box-shadow: none; }
 
         .btn-whatsapp {
             background: #25D366;
@@ -253,7 +228,6 @@
         }
         .btn-whatsapp:hover { background: #20BA5A; }
 
-        /* Resumen */
         .summary-item {
             display: flex;
             justify-content: space-between;
@@ -264,11 +238,7 @@
         .summary-label { color: var(--text-light); font-size: 0.9rem; }
         .summary-value { font-weight: 600; color: var(--primary); text-align: right; }
 
-        /* Pantalla de Éxito */
-        .success-screen {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
+        .success-screen { text-align: center; padding: 2rem 1rem; }
         .success-icon {
             width: 80px;
             height: 80px;
@@ -282,7 +252,6 @@
             margin: 0 auto 1.5rem;
         }
 
-        /* Utilidades */
         .hidden { display: none !important; }
         
         @media (max-width: 480px) {
@@ -305,7 +274,6 @@
     </header>
 
     <main class="app-container">
-        <!-- Indicador de Progreso -->
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -321,7 +289,7 @@
         <!-- PASO 1: Selección de Servicio -->
         <div id="step1" class="card step-content">
             <h2>¿Qué necesitas?</h2>
-            <p class="subtitle">Selecciona el servicio que deseas solicitar para personalizar tu experiencia.</p>
+            <p class="subtitle">Toca el servicio que deseas solicitar para abrir el formulario al instante.</p>
             
             <div class="service-options">
                 <div class="service-option" onclick="selectService('equipaje', this)">
@@ -360,12 +328,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="actions">
-                <button class="btn btn-primary" id="btnToStep2" disabled onclick="nextStep(2)">
-                    Continuar <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
         </div>
 
         <!-- PASO 2: Detalles del Servicio (Dinámico) -->
@@ -374,7 +336,6 @@
             <p class="subtitle" id="step2Subtitle">Cuéntanos un poco más para darte el mejor presupuesto.</p>
             
             <form id="detailsForm">
-                <!-- Los campos se inyectan vía JS según el servicio -->
                 <div id="dynamicFields"></div>
             </form>
 
@@ -391,7 +352,7 @@
         <!-- PASO 3: Datos de Contacto -->
         <div id="step3" class="card step-content hidden">
             <h2>Tus Datos de Contacto</h2>
-            <p class="subtitle">Necesitamos esta información para contactarte rápidamente por WhatsApp o teléfono.</p>
+            <p class="subtitle">Necesitamos esta información para contactarte rápidamente.</p>
             
             <form id="contactForm">
                 <div class="form-group">
@@ -432,9 +393,7 @@
             <h2>Revisa tu Solicitud</h2>
             <p class="subtitle">Asegúrate de que todo esté correcto antes de enviar.</p>
             
-            <div id="summaryContainer" style="margin-bottom: 1.5rem;">
-                <!-- Se llena con JS -->
-            </div>
+            <div id="summaryContainer" style="margin-bottom: 1.5rem;"></div>
 
             <div class="actions" style="flex-direction: column;">
                 <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
@@ -453,10 +412,7 @@
             </div>
             <h2>¡Solicitud Preparada!</h2>
             <p class="subtitle">Se ha abierto WhatsApp con tu solicitud. Solo tienes que pulsar "Enviar" en tu aplicación de mensajería.</p>
-            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 2rem;">
-                Nuestro equipo en Alcantarilla te responderá lo antes posible.
-            </p>
-            <button class="btn btn-primary" onclick="resetApp()" style="width: 100%;">
+            <button class="btn btn-primary" onclick="resetApp()" style="width: 100%; margin-top: 1rem;">
                 <i class="fas fa-plus"></i> Nueva Solicitud
             </button>
         </div>
@@ -464,9 +420,6 @@
     </main>
 
     <script>
-        // ==========================================
-        // ESTADO DE LA APLICACIÓN
-        // ==========================================
         const appState = {
             currentStep: 1,
             service: null,
@@ -475,7 +428,6 @@
             contact: {}
         };
 
-        // Configuración de campos dinámicos por servicio
         const serviceConfig = {
             equipaje: {
                 title: "Detalles del Envío",
@@ -516,8 +468,29 @@
                         <input type="date" id="detail_fecha_ida" required>
                     </div>
                     <div class="form-group">
-                        <label>Número de pasajeros</label>
-                        <input type="number" id="detail_pasajeros" min="1" value="1">
+                        <label>Fecha de vuelta</label>
+                        <input type="date" id="detail_fecha_vuelta">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Adultos *</label>
+                            <input type="number" id="detail_adultos" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Menores</label>
+                            <input type="number" id="detail_menores" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Viaja con vehículo?</label>
+                        <select id="detail_vehiculo" onchange="toggleMarcaVehiculo(this.value)">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="marca_vehiculo_group">
+                        <label>Marca/Modelo del vehículo</label>
+                        <input type="text" id="detail_marca" placeholder="Ej: Ford Fiesta">
                     </div>
                 `
             },
@@ -526,23 +499,30 @@
                 subtitle: "Dinos tus preferencias y encontraremos el mejor precio.",
                 fields: `
                     <div class="form-group">
-                        <label>Ciudad de Origen *</label>
+                        <label>Ciudad/Aeropuerto de Origen *</label>
                         <input type="text" id="detail_origen" required>
                     </div>
                     <div class="form-group">
-                        <label>Ciudad de Destino *</label>
+                        <label>Ciudad/Aeropuerto de Destino *</label>
                         <input type="text" id="detail_destino" required>
                     </div>
                     <div class="form-group">
-                        <label>Fecha de viaje *</label>
-                        <input type="date" id="detail_fecha" required>
+                        <label>Fecha de ida *</label>
+                        <input type="date" id="detail_fecha_ida" required>
                     </div>
                     <div class="form-group">
-                        <label>Tipo de viaje</label>
-                        <select id="detail_tipo">
-                            <option value="Ida y vuelta">Ida y vuelta</option>
-                            <option value="Solo ida">Solo ida</option>
-                        </select>
+                        <label>Fecha de vuelta</label>
+                        <input type="date" id="detail_fecha_vuelta">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Adultos *</label>
+                            <input type="number" id="detail_adultos" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Menores</label>
+                            <input type="number" id="detail_menores" min="0" value="0">
+                        </div>
                     </div>
                 `
             },
@@ -606,20 +586,13 @@
             }
         };
 
-        // ==========================================
-        // LÓGICA DE NAVEGACIÓN Y ESTADO
-        // ==========================================
         function updateProgress(step) {
             const fill = document.getElementById('progressFill');
             fill.style.width = `${step * 25}%`;
-            
             for (let i = 1; i <= 4; i++) {
                 const indicator = document.getElementById(`stepIndicator${i}`);
-                if (i <= step) {
-                    indicator.classList.add('step-active');
-                } else {
-                    indicator.classList.remove('step-active');
-                }
+                if (i <= step) indicator.classList.add('step-active');
+                else indicator.classList.remove('step-active');
             }
         }
 
@@ -631,42 +604,44 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function nextStep(step) {
-            showStep(step);
-        }
-
         function prevStep(step) {
             showStep(step);
         }
 
-        // ==========================================
-        // LÓGICA DEL PASO 1: SERVICIO
-        // ==========================================
+        // CAMBIO CLAVE: Al hacer clic, selecciona y avanza automáticamente al Paso 2
         function selectService(serviceKey, element) {
-            // UI Update
             document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
             
-            // State Update
             appState.service = serviceKey;
             appState.serviceName = element.querySelector('h4').innerText;
             
-            // Enable button
-            document.getElementById('btnToStep2').disabled = false;
-            
-            // Prepare Step 2
             const config = serviceConfig[serviceKey];
             document.getElementById('step2Title').innerText = config.title;
             document.getElementById('step2Subtitle').innerText = config.subtitle;
             document.getElementById('dynamicFields').innerHTML = config.fields;
+            
+            // Avance automático sin necesidad de un segundo clic
+            setTimeout(() => {
+                showStep(2);
+            }, 200); // Pequeño delay para que se aprecie la selección visual
         }
 
-        // ==========================================
-        // LÓGICA DEL PASO 2: VALIDACIÓN DETALLES
-        // ==========================================
+        function toggleMarcaVehiculo(valor) {
+            const marcaGroup = document.getElementById('marca_vehiculo_group');
+            const marcaInput = document.getElementById('detail_marca');
+            if (valor === 'Sí') {
+                marcaGroup.classList.remove('hidden');
+                marcaInput.setAttribute('required', 'required');
+            } else {
+                marcaGroup.classList.add('hidden');
+                marcaInput.removeAttribute('required');
+                marcaInput.value = '';
+            }
+        }
+
         function validateAndNext(nextStepNum) {
             if (appState.currentStep === 2) {
-                // Validar campos dinámicos
                 const inputs = document.querySelectorAll('#dynamicFields input[required], #dynamicFields select[required]');
                 let isValid = true;
                 appState.details = {};
@@ -682,12 +657,10 @@
                 });
 
                 if (!isValid) {
-                    alert('Por favor, completa todos los campos obligatorios.');
+                    alert('Por favor, completa todos los campos obligatorios marcados con *');
                     return;
                 }
-            } 
-            else if (appState.currentStep === 3) {
-                // Validar contacto
+            } else if (appState.currentStep === 3) {
                 const nombre = document.getElementById('nombre');
                 const telefono = document.getElementById('telefono');
                 let isValid = true;
@@ -717,17 +690,11 @@
                 appState.contact.comentarios = document.getElementById('comentarios').value;
 
                 if (!isValid) return;
-
-                // Generar Resumen
                 generateSummary();
             }
-
             showStep(nextStepNum);
         }
 
-        // ==========================================
-        // LÓGICA DEL PASO 4: RESUMEN Y ENVÍO
-        // ==========================================
         function generateSummary() {
             const container = document.getElementById('summaryContainer');
             let html = `
@@ -737,9 +704,11 @@
                 </div>
             `;
 
-            // Detalles
             for (const [key, value] of Object.entries(appState.details)) {
                 const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                // No mostrar campo de marca si está vacío
+                if (key === 'marca' && !value) continue;
+                
                 html += `
                     <div class="summary-item">
                         <span class="summary-label">${label}</span>
@@ -748,7 +717,6 @@
                 `;
             }
 
-            // Contacto
             html += `
                 <div class="summary-item">
                     <span class="summary-label">Nombre</span>
@@ -768,12 +736,10 @@
                     </div>
                 `;
             }
-
             container.innerHTML = html;
         }
 
         function sendToWhatsApp() {
-            // Construir mensaje estructurado
             let message = `*NUEVA SOLICITUD WEB - MULTISERVICIOS NASSIM*%0A%0A`;
             message += `*Servicio:* ${appState.serviceName}%0A`;
             message += `*Cliente:* ${appState.contact.nombre}%0A`;
@@ -782,6 +748,7 @@
             message += `*DETALLES:*%0A`;
             for (const [key, value] of Object.entries(appState.details)) {
                 const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                if (key === 'marca' && !value) continue;
                 message += `• ${label}: ${value}%0A`;
             }
 
@@ -791,13 +758,11 @@
 
             message += `%0A%0AEnviado desde la web de Multiservicios Nassim.`;
 
-            // Abrir WhatsApp
             const phone = "34631419471";
             const url = `https://wa.me/${phone}?text=${message}`;
             
             window.open(url, '_blank');
             
-            // Mostrar pantalla de éxito
             document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('progressContainer').classList.add('hidden');
             document.getElementById('successScreen').classList.remove('hidden');
@@ -813,7 +778,6 @@
             document.getElementById('detailsForm').reset();
             document.getElementById('contactForm').reset();
             document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
-            document.getElementById('btnToStep2').disabled = true;
             
             document.getElementById('successScreen').classList.add('hidden');
             document.getElementById('progressContainer').classList.remove('hidden');
@@ -821,7 +785,6 @@
             showStep(1);
         }
 
-        // Inicializar
         updateProgress(1);
     </script>
 </body>
