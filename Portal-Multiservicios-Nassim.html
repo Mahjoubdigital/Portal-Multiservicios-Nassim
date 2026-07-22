@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal de Servicios | Multiservicios Nassim</title>
+    <meta name="description" content="Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.">
+    
+    <!-- Fuentes e Iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0A2540;
+            --secondary: #1E88E5;
+            --accent: #FF8C00;
+            --accent-hover: #E67E00;
+            --bg: #F1F5F9;
+            --surface: #FFFFFF;
+            --text: #334155;
+            --text-light: #64748B;
+            --success: #10B981;
+            --error: #EF4444;
+            --radius: 16px;
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header App-like */
+        .app-header {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand span { color: var(--secondary); }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Contenedor Principal */
+        .app-container {
+            flex: 1;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra de Progreso */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #E2E8F0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            width: 25%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .step-active { color: var(--secondary); }
+
+        /* Tarjetas de Contenido */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Selector de Servicios */
+        .service-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .service-option {
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-option:hover { border-color: var(--secondary); background: #F8FAFC; }
+        .service-option.selected { 
+            border-color: var(--secondary); 
+            background: rgba(30, 136, 229, 0.05);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+        }
+
+        .service-option i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            width: 40px;
+            text-align: center;
+        }
+
+        .service-info h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .service-info p { font-size: 0.85rem; color: var(--text-light); }
+
+        /* Formularios */
+        .form-group { margin-bottom: 1.25rem; }
+        
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--surface);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .input-error { border-color: var(--error) !important; }
+
+        /* Botones de Acción */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: var(--text);
+        }
+        .btn-secondary:hover { background: #CBD5E1; }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-primary:disabled { background: #CBD5E1; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .btn-whatsapp:hover { background: #20BA5A; }
+
+        /* Resumen */
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-label { color: var(--text-light); font-size: 0.9rem; }
+        .summary-value { font-weight: 600; color: var(--primary); text-align: right; }
+
+        /* Pantalla de Éxito */
+        .success-screen {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Utilidades */
+        .hidden { display: none !important; }
+        
+        @media (max-width: 480px) {
+            .app-container { padding: 1rem; }
+            .card { padding: 1.25rem; }
+            h2 { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="brand">
+            <i class="fas fa-layer-group"></i>
+            Multiservicios <span>Nassim</span>
+        </div>
+        <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar">
+            <i class="fas fa-phone"></i>
+        </a>
+    </header>
+
+    <main class="app-container">
+        <!-- Indicador de Progreso -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="step-active" id="stepIndicator1">1. Servicio</span>
+                <span id="stepIndicator2">2. Detalles</span>
+                <span id="stepIndicator3">3. Datos</span>
+                <span id="stepIndicator4">4. Enviar</span>
+            </div>
+        </div>
+
+        <!-- PASO 1: Selección de Servicio -->
+        <div id="step1" class="card step-content">
+            <h2>¿Qué necesitas?</h2>
+            <p class="subtitle">Selecciona el servicio que deseas solicitar para personalizar tu experiencia.</p>
+            
+            <div class="service-options">
+                <div class="service-option" onclick="selectService('equipaje', this)">
+                    <i class="fas fa-suitcase-rolling"></i>
+                    <div class="service-info">
+                        <h4>Envío de Equipaje</h4>
+                        <p>Maletas y paquetes internacionales</p>
+                    </div>
+                </div>
+                <div class="service-option" onclick="selectService('maritimo', this)">
+                    <i class="fas fa-ship"></i>
+                    <div class="service-info">
+                        <h4>Billetes Marítimos</h4>
+                        <p>Ferris y transporte por mar</p>
+                    </div>
+                </div>
+                <div class="service-option" onclick="selectService('vuelos', this)">
+                    <i class="fas fa-plane-departure"></i>
+                    <div class="service-info">
+                        <h4>Buscador de Vuelos</h4>
+                        <p>Mejores ofertas nacionales e internacionales</p>
+                    </div>
+                </div>
+                <div class="service-option" onclick="selectService('citas', this)">
+                    <i class="fas fa-file-signature"></i>
+                    <div class="service-info">
+                        <h4>Citas Administrativas</h4>
+                        <p>Extranjería, registro civil y trámites</p>
+                    </div>
+                </div>
+                <div class="service-option" onclick="selectService('inmobiliaria', this)">
+                    <i class="fas fa-home"></i>
+                    <div class="service-info">
+                        <h4>Intermediación Inmobiliaria</h4>
+                        <p>Compra, venta o alquiler en Murcia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="btnToStep2" disabled onclick="nextStep(2)">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- PASO 2: Detalles del Servicio (Dinámico) -->
+        <div id="step2" class="card step-content hidden">
+            <h2 id="step2Title">Detalles del Servicio</h2>
+            <p class="subtitle" id="step2Subtitle">Cuéntanos un poco más para darte el mejor presupuesto.</p>
+            
+            <form id="detailsForm">
+                <!-- Los campos se inyectan vía JS según el servicio -->
+                <div id="dynamicFields"></div>
+            </form>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="prevStep(1)">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                </button>
+                <button class="btn btn-primary" onclick="validateAndNext(3)">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- PASO 3: Datos de Contacto -->
+        <div id="step3" class="card step-content hidden">
+            <h2>Tus Datos de Contacto</h2>
+            <p class="subtitle">Necesitamos esta información para contactarte rápidamente por WhatsApp o teléfono.</p>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo *</label>
+                    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required>
+                    <div class="error-msg">Por favor, introduce tu nombre.</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono / WhatsApp *</label>
+                    <input type="tel" id="telefono" placeholder="Ej: 631 419 471" required>
+                    <div class="error-msg">Introduce un teléfono válido (9 dígitos).</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo electrónico (Opcional)</label>
+                    <input type="email" id="email" placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales</label>
+                    <textarea id="comentarios" rows="3" placeholder="¿Algo más que debamos saber?"></textarea>
+                </div>
+            </form>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="prevStep(2)">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                </button>
+                <button class="btn btn-primary" onclick="validateAndNext(4)">
+                    Revisar Solicitud <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- PASO 4: Resumen y Envío -->
+        <div id="step4" class="card step-content hidden">
+            <h2>Revisa tu Solicitud</h2>
+            <p class="subtitle">Asegúrate de que todo esté correcto antes de enviar.</p>
+            
+            <div id="summaryContainer" style="margin-bottom: 1.5rem;">
+                <!-- Se llena con JS -->
+            </div>
+
+            <div class="actions" style="flex-direction: column;">
+                <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                </button>
+                <button class="btn btn-secondary" onclick="prevStep(3)" style="margin-top: 0.5rem;">
+                    <i class="fas fa-edit"></i> Modificar datos
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA DE ÉXITO -->
+        <div id="successScreen" class="card success-screen hidden">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>¡Solicitud Preparada!</h2>
+            <p class="subtitle">Se ha abierto WhatsApp con tu solicitud. Solo tienes que pulsar "Enviar" en tu aplicación de mensajería.</p>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 2rem;">
+                Nuestro equipo en Alcantarilla te responderá lo antes posible.
+            </p>
+            <button class="btn btn-primary" onclick="resetApp()" style="width: 100%;">
+                <i class="fas fa-plus"></i> Nueva Solicitud
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // ==========================================
+        // ESTADO DE LA APLICACIÓN
+        // ==========================================
+        const appState = {
+            currentStep: 1,
+            service: null,
+            serviceName: '',
+            details: {},
+            contact: {}
+        };
+
+        // Configuración de campos dinámicos por servicio
+        const serviceConfig = {
+            equipaje: {
+                title: "Detalles del Envío",
+                subtitle: "Indica las características de tu equipaje o paquete.",
+                fields: `
+                    <div class="form-group">
+                        <label>Origen (Ciudad/País) *</label>
+                        <input type="text" id="detail_origen" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destino (Ciudad/País) *</label>
+                        <input type="text" id="detail_destino" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de bultos y peso aproximado *</label>
+                        <input type="text" id="detail_peso" placeholder="Ej: 2 maletas, 20kg cada una" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha estimada de envío</label>
+                        <input type="date" id="detail_fecha">
+                    </div>
+                `
+            },
+            maritimo: {
+                title: "Detalles del Viaje Marítimo",
+                subtitle: "¿A dónde quieres navegar? Buscaremos las mejores rutas.",
+                fields: `
+                    <div class="form-group">
+                        <label>Puerto de Origen *</label>
+                        <input type="text" id="detail_origen" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Puerto de Destino *</label>
+                        <input type="text" id="detail_destino" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de ida *</label>
+                        <input type="date" id="detail_fecha_ida" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de pasajeros</label>
+                        <input type="number" id="detail_pasajeros" min="1" value="1">
+                    </div>
+                `
+            },
+            vuelos: {
+                title: "Búsqueda de Vuelos",
+                subtitle: "Dinos tus preferencias y encontraremos el mejor precio.",
+                fields: `
+                    <div class="form-group">
+                        <label>Ciudad de Origen *</label>
+                        <input type="text" id="detail_origen" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad de Destino *</label>
+                        <input type="text" id="detail_destino" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de viaje *</label>
+                        <input type="date" id="detail_fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de viaje</label>
+                        <select id="detail_tipo">
+                            <option value="Ida y vuelta">Ida y vuelta</option>
+                            <option value="Solo ida">Solo ida</option>
+                        </select>
+                    </div>
+                `
+            },
+            citas: {
+                title: "Gestión de Citas Administrativas",
+                subtitle: "Cuéntanos qué trámite necesitas gestionar.",
+                fields: `
+                    <div class="form-group">
+                        <label>Tipo de trámite *</label>
+                        <select id="detail_tramite" required>
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Extranjería (TIE, Prórroga, Nacionalidad)">Extranjería (TIE, Prórroga, Nacionalidad)</option>
+                            <option value="Registro Civil">Registro Civil</option>
+                            <option value="DNI/Pasaporte">DNI/Pasaporte</option>
+                            <option value="Otro">Otro (especificar en comentarios)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del interesado (si es distinto al tuyo)</label>
+                        <input type="text" id="detail_interesado">
+                    </div>
+                    <div class="form-group">
+                        <label>Urgencia</label>
+                        <select id="detail_urgencia">
+                            <option value="Normal">Normal</option>
+                            <option value="Urgente">Urgente</option>
+                        </select>
+                    </div>
+                `
+            },
+            inmobiliaria: {
+                title: "Servicio Inmobiliario",
+                subtitle: "¿Buscas comprar, vender o alquilar en Murcia?",
+                fields: `
+                    <div class="form-group">
+                        <label>Operación *</label>
+                        <select id="detail_operacion" required>
+                            <option value="Comprar">Comprar</option>
+                            <option value="Vender">Vender</option>
+                            <option value="Alquilar">Alquilar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de propiedad *</label>
+                        <select id="detail_propiedad" required>
+                            <option value="Piso/Apartamento">Piso/Apartamento</option>
+                            <option value="Casa/Chalet">Casa/Chalet</option>
+                            <option value="Local Comercial">Local Comercial</option>
+                            <option value="Terreno">Terreno</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Zona de interés en Murcia</label>
+                        <input type="text" id="detail_zona" placeholder="Ej: Alcantarilla, Murcia centro...">
+                    </div>
+                    <div class="form-group">
+                        <label>Presupuesto aproximado</label>
+                        <input type="text" id="detail_presupuesto" placeholder="Ej: 150.000€">
+                    </div>
+                `
+            }
+        };
+
+        // ==========================================
+        // LÓGICA DE NAVEGACIÓN Y ESTADO
+        // ==========================================
+        function updateProgress(step) {
+            const fill = document.getElementById('progressFill');
+            fill.style.width = `${step * 25}%`;
+            
+            for (let i = 1; i <= 4; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                if (i <= step) {
+                    indicator.classList.add('step-active');
+                } else {
+                    indicator.classList.remove('step-active');
+                }
+            }
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            appState.currentStep = step;
+            updateProgress(step);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep(step) {
+            showStep(step);
+        }
+
+        function prevStep(step) {
+            showStep(step);
+        }
+
+        // ==========================================
+        // LÓGICA DEL PASO 1: SERVICIO
+        // ==========================================
+        function selectService(serviceKey, element) {
+            // UI Update
+            document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            // State Update
+            appState.service = serviceKey;
+            appState.serviceName = element.querySelector('h4').innerText;
+            
+            // Enable button
+            document.getElementById('btnToStep2').disabled = false;
+            
+            // Prepare Step 2
+            const config = serviceConfig[serviceKey];
+            document.getElementById('step2Title').innerText = config.title;
+            document.getElementById('step2Subtitle').innerText = config.subtitle;
+            document.getElementById('dynamicFields').innerHTML = config.fields;
+        }
+
+        // ==========================================
+        // LÓGICA DEL PASO 2: VALIDACIÓN DETALLES
+        // ==========================================
+        function validateAndNext(nextStepNum) {
+            if (appState.currentStep === 2) {
+                // Validar campos dinámicos
+                const inputs = document.querySelectorAll('#dynamicFields input[required], #dynamicFields select[required]');
+                let isValid = true;
+                appState.details = {};
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('input-error');
+                    } else {
+                        input.classList.remove('input-error');
+                        appState.details[input.id.replace('detail_', '')] = input.value;
+                    }
+                });
+
+                if (!isValid) {
+                    alert('Por favor, completa todos los campos obligatorios.');
+                    return;
+                }
+            } 
+            else if (appState.currentStep === 3) {
+                // Validar contacto
+                const nombre = document.getElementById('nombre');
+                const telefono = document.getElementById('telefono');
+                let isValid = true;
+                
+                if (!nombre.value.trim()) {
+                    nombre.classList.add('input-error');
+                    nombre.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                } else {
+                    nombre.classList.remove('input-error');
+                    nombre.nextElementSibling.style.display = 'none';
+                    appState.contact.nombre = nombre.value;
+                }
+
+                const phoneRegex = /^[0-9]{9}$/;
+                if (!phoneRegex.test(telefono.value.replace(/\s/g, ''))) {
+                    telefono.classList.add('input-error');
+                    telefono.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                } else {
+                    telefono.classList.remove('input-error');
+                    telefono.nextElementSibling.style.display = 'none';
+                    appState.contact.telefono = telefono.value;
+                }
+
+                appState.contact.email = document.getElementById('email').value;
+                appState.contact.comentarios = document.getElementById('comentarios').value;
+
+                if (!isValid) return;
+
+                // Generar Resumen
+                generateSummary();
+            }
+
+            showStep(nextStepNum);
+        }
+
+        // ==========================================
+        // LÓGICA DEL PASO 4: RESUMEN Y ENVÍO
+        // ==========================================
+        function generateSummary() {
+            const container = document.getElementById('summaryContainer');
+            let html = `
+                <div class="summary-item">
+                    <span class="summary-label">Servicio</span>
+                    <span class="summary-value">${appState.serviceName}</span>
+                </div>
+            `;
+
+            // Detalles
+            for (const [key, value] of Object.entries(appState.details)) {
+                const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                html += `
+                    <div class="summary-item">
+                        <span class="summary-label">${label}</span>
+                        <span class="summary-value">${value}</span>
+                    </div>
+                `;
+            }
+
+            // Contacto
+            html += `
+                <div class="summary-item">
+                    <span class="summary-label">Nombre</span>
+                    <span class="summary-value">${appState.contact.nombre}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Teléfono</span>
+                    <span class="summary-value">${appState.contact.telefono}</span>
+                </div>
+            `;
+
+            if (appState.contact.comentarios) {
+                html += `
+                    <div class="summary-item" style="flex-direction: column; gap: 0.5rem;">
+                        <span class="summary-label">Comentarios</span>
+                        <span class="summary-value" style="text-align: left; font-weight: 400; font-size: 0.9rem;">${appState.contact.comentarios}</span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function sendToWhatsApp() {
+            // Construir mensaje estructurado
+            let message = `*NUEVA SOLICITUD WEB - MULTISERVICIOS NASSIM*%0A%0A`;
+            message += `*Servicio:* ${appState.serviceName}%0A`;
+            message += `*Cliente:* ${appState.contact.nombre}%0A`;
+            message += `*Teléfono:* ${appState.contact.telefono}%0A%0A`;
+            
+            message += `*DETALLES:*%0A`;
+            for (const [key, value] of Object.entries(appState.details)) {
+                const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                message += `• ${label}: ${value}%0A`;
+            }
+
+            if (appState.contact.comentarios) {
+                message += `%0A*Comentarios:* ${appState.contact.comentarios}`;
+            }
+
+            message += `%0A%0AEnviado desde la web de Multiservicios Nassim.`;
+
+            // Abrir WhatsApp
+            const phone = "34631419471";
+            const url = `https://wa.me/${phone}?text=${message}`;
+            
+            window.open(url, '_blank');
+            
+            // Mostrar pantalla de éxito
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('progressContainer').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+        }
+
+        function resetApp() {
+            appState.currentStep = 1;
+            appState.service = null;
+            appState.serviceName = '';
+            appState.details = {};
+            appState.contact = {};
+            
+            document.getElementById('detailsForm').reset();
+            document.getElementById('contactForm').reset();
+            document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('btnToStep2').disabled = true;
+            
+            document.getElementById('successScreen').classList.add('hidden');
+            document.getElementById('progressContainer').classList.remove('hidden');
+            
+            showStep(1);
+        }
+
+        // Inicializar
+        updateProgress(1);
+    </script>
+</body>
+</html>
