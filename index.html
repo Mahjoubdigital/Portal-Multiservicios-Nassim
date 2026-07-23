@@ -138,6 +138,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+
         .brand {
             font-weight: 800;
             font-size: 1.35rem;
@@ -185,6 +186,74 @@
         .btn-icon:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .hamburger-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .hamburger-btn {
+                display: flex;
+            }
+
+            .header-actions {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                background: rgba(10, 37, 64, 0.97);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                pointer-events: none;
+                transition: max-height 0.25s ease, opacity 0.2s ease;
+            }
+
+            .header-actions.open {
+                max-height: 200px;
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .header-actions .btn-icon {
+                width: 100%;
+                justify-content: center;
+                padding: 0.75rem;
+            }
+
+            .header-actions .btn-icon span {
+                display: inline;
+            }
         }
 
         /* =========================================
@@ -717,10 +786,19 @@
                 Multiservicios <span>Nassim</span>
             </div>
         </div>
-        <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar">
-            <i class="fas fa-phone"></i>
-            <span>Llamar</span>
-        </a>
+        <div class="header-actions">
+            <a href="https://wa.me/34631419471" target="_blank" rel="noopener" class="btn-icon" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+            <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar">
+                <i class="fas fa-phone"></i>
+                <span>Llamar</span>
+            </a>
+        </div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <!-- Contenido principal -->
@@ -932,14 +1010,14 @@
                             <label><i class="fas fa-map-marker-alt label-icon"></i> Origen (Ciudad/País) *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-departure input-icon"></i>
-                                <input type="text" id="detail_origen" placeholder="Ej: Madrid, España" required>
+                                <input type="text" id="detail_origen_equipaje" data-field="origen" placeholder="Ej: Madrid, España" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-map-pin label-icon"></i> Destino (Ciudad/País) *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-arrival input-icon"></i>
-                                <input type="text" id="detail_destino" placeholder="Ej: Buenos Aires, Argentina" required>
+                                <input type="text" id="detail_destino_equipaje" data-field="destino" placeholder="Ej: Buenos Aires, Argentina" required>
                             </div>
                         </div>
                     </div>
@@ -977,14 +1055,14 @@
                             <label><i class="fas fa-map-marker-alt label-icon"></i> Puerto de Origen *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-ship input-icon"></i>
-                                <input type="text" id="detail_origen" placeholder="Ej: Valencia" required>
+                                <input type="text" id="detail_origen_maritimo" data-field="origen" placeholder="Ej: Valencia" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-map-pin label-icon"></i> Puerto de Destino *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-flag-checkered input-icon"></i>
-                                <input type="text" id="detail_destino" placeholder="Ej: Palma de Mallorca" required>
+                                <input type="text" id="detail_destino_maritimo" data-field="destino" placeholder="Ej: Palma de Mallorca" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -992,14 +1070,14 @@
                                 <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-alt input-icon"></i>
-                                    <input type="date" id="detail_fecha_ida" required>
+                                    <input type="date" id="detail_fecha_ida_maritimo" data-field="fecha_ida" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-check input-icon"></i>
-                                    <input type="date" id="detail_fecha_vuelta">
+                                    <input type="date" id="detail_fecha_vuelta_maritimo" data-field="fecha_vuelta">
                                 </div>
                             </div>
                         </div>
@@ -1013,11 +1091,11 @@
                             <div class="form-group">
                                 <label><i class="fas fa-user label-icon"></i> Adultos *</label>
                                 <div class="counter-group">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', -1, 1, 10)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_maritimo', -1, 1, 10)">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <input type="number" class="counter-input" id="detail_adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', 1, 1, 10)">
+                                    <input type="number" class="counter-input" id="detail_adultos_maritimo" data-field="adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_maritimo', 1, 1, 10)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -1025,11 +1103,11 @@
                             <div class="form-group">
                                 <label><i class="fas fa-child label-icon"></i> Menores</label>
                                 <div class="counter-group">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', -1, 0, 10)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_maritimo', -1, 0, 10)">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <input type="number" class="counter-input" id="detail_menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', 1, 0, 10)">
+                                    <input type="number" class="counter-input" id="detail_menores_maritimo" data-field="menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_maritimo', 1, 0, 10)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -1073,14 +1151,14 @@
                             <label><i class="fas fa-map-marker-alt label-icon"></i> Ciudad/Aeropuerto de Origen *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-departure input-icon"></i>
-                                <input type="text" id="detail_origen" placeholder="Ej: Madrid (MAD)" required>
+                                <input type="text" id="detail_origen_vuelos" data-field="origen" placeholder="Ej: Madrid (MAD)" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-map-pin label-icon"></i> Ciudad/Aeropuerto de Destino *</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-arrival input-icon"></i>
-                                <input type="text" id="detail_destino" placeholder="Ej: Roma (FCO)" required>
+                                <input type="text" id="detail_destino_vuelos" data-field="destino" placeholder="Ej: Roma (FCO)" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -1088,14 +1166,14 @@
                                 <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-alt input-icon"></i>
-                                    <input type="date" id="detail_fecha_ida" required>
+                                    <input type="date" id="detail_fecha_ida_vuelos" data-field="fecha_ida" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-check input-icon"></i>
-                                    <input type="date" id="detail_fecha_vuelta">
+                                    <input type="date" id="detail_fecha_vuelta_vuelos" data-field="fecha_vuelta">
                                 </div>
                             </div>
                         </div>
@@ -1109,11 +1187,11 @@
                             <div class="form-group">
                                 <label><i class="fas fa-user label-icon"></i> Adultos *</label>
                                 <div class="counter-group">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', -1, 1, 10)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_vuelos', -1, 1, 10)">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <input type="number" class="counter-input" id="detail_adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos', 1, 1, 10)">
+                                    <input type="number" class="counter-input" id="detail_adultos_vuelos" data-field="adultos" value="1" min="1" max="10" required onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_vuelos', 1, 1, 10)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -1121,11 +1199,11 @@
                             <div class="form-group">
                                 <label><i class="fas fa-child label-icon"></i> Menores</label>
                                 <div class="counter-group">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', -1, 0, 10)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_vuelos', -1, 0, 10)">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <input type="number" class="counter-input" id="detail_menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
-                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores', 1, 0, 10)">
+                                    <input type="number" class="counter-input" id="detail_menores_vuelos" data-field="menores" value="0" min="0" max="10" onchange="updateCounterButtons(this)">
+                                    <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_vuelos', 1, 0, 10)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -1379,7 +1457,8 @@
                         input.classList.add('input-error');
                     } else {
                         input.classList.remove('input-error');
-                        appState.details[input.id.replace('detail_', '')] = input.value;
+                        const fieldKey = input.dataset.field || input.id.replace('detail_', '');
+                        appState.details[fieldKey] = input.value;
                     }
                 });
 
@@ -1509,6 +1588,38 @@
         }
 
         updateProgress(1);
+
+        // ==========================================
+        // MENÚ HAMBURGUESA (MÓVIL)
+        // ==========================================
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const headerActions = document.querySelector('.header-actions');
+
+        if (hamburgerBtn && headerActions) {
+            hamburgerBtn.addEventListener('click', () => {
+                const isOpen = headerActions.classList.toggle('open');
+                hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                hamburgerBtn.innerHTML = isOpen
+                    ? '<i class="fas fa-times"></i>'
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            headerActions.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerActions.classList.remove('open');
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!headerActions.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                    headerActions.classList.remove('open');
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        }
     </script>
 </body>
 </html>
