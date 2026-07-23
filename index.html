@@ -765,6 +765,123 @@
         .hidden { display: none !important; }
 
         /* ==========================================
+           SELECTOR DE IDIOMA
+           ========================================== */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 0.25rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.78rem;
+            letter-spacing: 0.03em;
+            padding: 0.35rem 0.4rem;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.55;
+            filter: grayscale(60%);
+        }
+
+        .lang-flag {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            opacity: 0.85;
+            filter: grayscale(0%);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 140, 0, 0.18);
+            opacity: 1;
+            filter: grayscale(0%);
+            box-shadow: inset 0 0 0 2px var(--accent);
+        }
+
+        @media (max-width: 600px) {
+            .header-actions .lang-switcher {
+                justify-content: center;
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        /* ==========================================
+           SOPORTE RTL (ÁRABE)
+           ========================================== */
+        html[dir="rtl"] .input-icon {
+            left: auto;
+            right: 1rem;
+        }
+
+        html[dir="rtl"] .input-wrapper input,
+        html[dir="rtl"] .input-wrapper select,
+        html[dir="rtl"] .input-wrapper textarea {
+            padding-left: 0.875rem;
+            padding-right: 2.75rem;
+        }
+
+        html[dir="rtl"] .validation-icon {
+            right: auto;
+            left: 1rem;
+        }
+
+        html[dir="rtl"] .select-wrapper::after {
+            right: auto;
+            left: 1rem;
+        }
+
+        html[dir="rtl"] select {
+            padding-right: 0.875rem;
+            padding-left: 2.5rem;
+        }
+
+        html[dir="rtl"] .summary-value,
+        html[dir="rtl"] .summary-item {
+            text-align: left;
+        }
+
+        html[dir="rtl"] .service-option {
+            text-align: right;
+        }
+
+        html[dir="rtl"] body {
+            font-family: 'Tahoma', 'Segoe UI', 'Inter', sans-serif;
+        }
+
+        /* ==========================================
+           IMAGEN DE CABECERA (SOLO MÓVIL)
+           ========================================== */
+        .mobile-hero-img {
+            display: none;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        @media (max-width: 600px) {
+            .mobile-hero-img {
+                display: block;
+            }
+        }
+
+        /* ==========================================
            FOOTER
            ========================================== */
         .app-footer {
@@ -968,19 +1085,28 @@
             </div>
         </div>
         <div class="header-actions">
+            <div class="lang-switcher" id="langSwitcher">
+                <button type="button" class="lang-btn" data-lang="es" aria-label="Español" title="Español"><span class="lang-flag">🇪🇸</span></button>
+                <button type="button" class="lang-btn" data-lang="en" aria-label="English" title="English"><span class="lang-flag">🇬🇧</span></button>
+                <button type="button" class="lang-btn" data-lang="fr" aria-label="Français" title="Français"><span class="lang-flag">🇫🇷</span></button>
+                <button type="button" class="lang-btn" data-lang="ar" aria-label="العربية" title="العربية"><span class="lang-flag">🇸🇦</span></button>
+            </div>
             <a href="https://wa.me/34631419471" target="_blank" rel="noopener" class="btn-icon" aria-label="WhatsApp">
                 <i class="fab fa-whatsapp"></i>
                 <span>WhatsApp</span>
             </a>
-            <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar">
+            <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar" data-i18n-aria="header_llamar_aria">
                 <i class="fas fa-phone"></i>
-                <span>Llamar</span>
+                <span data-i18n="header_llamar">Llamar</span>
             </a>
         </div>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" data-i18n-aria="header_menu_aria" aria-expanded="false">
             <i class="fas fa-bars"></i>
         </button>
     </header>
+
+    <!-- Imagen de cabecera (solo visible en móvil) -->
+    <img src="mobile-header.jpg" alt="Multiservicios Nassim - Viajes, Trámites, Inmobiliaria y Envíos" class="mobile-hero-img">
 
     <!-- Contenido principal -->
     <main class="app-container">
@@ -989,52 +1115,52 @@
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             <div class="progress-steps">
-                <span class="step-active" id="stepIndicator1">1. Servicio</span>
-                <span id="stepIndicator2">2. Detalles</span>
-                <span id="stepIndicator3">3. Datos</span>
-                <span id="stepIndicator4">4. Enviar</span>
+                <span class="step-active" id="stepIndicator1" data-i18n="step_ind_1">1. Servicio</span>
+                <span id="stepIndicator2" data-i18n="step_ind_2">2. Detalles</span>
+                <span id="stepIndicator3" data-i18n="step_ind_3">3. Datos</span>
+                <span id="stepIndicator4" data-i18n="step_ind_4">4. Enviar</span>
             </div>
         </div>
 
         <!-- PASO 1 -->
         <div id="step1" class="card step-content">
-            <h2>¿Qué necesitas?</h2>
-            <p class="subtitle">Toca el servicio que deseas solicitar para abrir el formulario al instante.</p>
+            <h2 data-i18n="step1_title">¿Qué necesitas?</h2>
+            <p class="subtitle" data-i18n="step1_subtitle">Toca el servicio que deseas solicitar para abrir el formulario al instante.</p>
             
             <div class="service-options">
                 <div class="service-option" onclick="selectService('equipaje', this)">
                     <i class="fas fa-suitcase-rolling"></i>
                     <div class="service-info">
-                        <h4>Envío de Equipaje</h4>
-                        <p>Maletas y paquetes internacionales</p>
+                        <h4 data-i18n="svc_equipaje_title">Envío de Equipaje</h4>
+                        <p data-i18n="svc_equipaje_desc">Maletas y paquetes internacionales</p>
                     </div>
                 </div>
                 <div class="service-option" onclick="selectService('maritimo', this)">
                     <i class="fas fa-ship"></i>
                     <div class="service-info">
-                        <h4>Billetes Marítimos</h4>
-                        <p>Ferris y transporte por mar</p>
+                        <h4 data-i18n="svc_maritimo_title">Billetes Marítimos</h4>
+                        <p data-i18n="svc_maritimo_desc">Ferris y transporte por mar</p>
                     </div>
                 </div>
                 <div class="service-option" onclick="selectService('vuelos', this)">
                     <i class="fas fa-plane-departure"></i>
                     <div class="service-info">
-                        <h4>Buscador de Vuelos</h4>
-                        <p>Mejores ofertas nacionales e internacionales</p>
+                        <h4 data-i18n="svc_vuelos_title">Buscador de Vuelos</h4>
+                        <p data-i18n="svc_vuelos_desc">Mejores ofertas nacionales e internacionales</p>
                     </div>
                 </div>
                 <div class="service-option" onclick="selectService('citas', this)">
                     <i class="fas fa-file-signature"></i>
                     <div class="service-info">
-                        <h4>Citas Administrativas</h4>
-                        <p>Extranjería, registro civil y trámites</p>
+                        <h4 data-i18n="svc_citas_title">Citas Administrativas</h4>
+                        <p data-i18n="svc_citas_desc">Extranjería, registro civil y trámites</p>
                     </div>
                 </div>
                 <div class="service-option" onclick="selectService('inmobiliaria', this)">
                     <i class="fas fa-home"></i>
                     <div class="service-info">
-                        <h4>Intermediación Inmobiliaria</h4>
-                        <p>Compra, venta o alquiler en Murcia</p>
+                        <h4 data-i18n="svc_inmobiliaria_title">Intermediación Inmobiliaria</h4>
+                        <p data-i18n="svc_inmobiliaria_desc">Compra, venta o alquiler en Murcia</p>
                     </div>
                 </div>
             </div>
@@ -1051,58 +1177,58 @@
 
             <div class="actions">
                 <button class="btn btn-secondary" onclick="prevStep(1)">
-                    <i class="fas fa-arrow-left"></i> Atrás
+                    <i class="fas fa-arrow-left"></i> <span data-i18n="btn_back">Atrás</span>
                 </button>
                 <button class="btn btn-primary" onclick="validateAndNext(3)">
-                    Continuar <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="btn_continue">Continuar</span> <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
 
         <!-- PASO 3 -->
         <div id="step3" class="card step-content hidden">
-            <h2>Tus Datos de Contacto</h2>
-            <p class="subtitle">Necesitamos esta información para contactarte rápidamente.</p>
+            <h2 data-i18n="step3_title">Tus Datos de Contacto</h2>
+            <p class="subtitle" data-i18n="step3_subtitle">Necesitamos esta información para contactarte rápidamente.</p>
             
             <form id="contactForm">
                 <div class="form-group">
                     <label for="nombre">
                         <i class="fas fa-user label-icon"></i>
-                        Nombre completo *
+                        <span data-i18n="lbl_nombre">Nombre completo *</span>
                     </label>
                     <div class="input-wrapper">
                         <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required oninput="validateField(this, 'nombre')">
+                        <input type="text" id="nombre" placeholder="Ej: Juan Pérez" data-i18n-placeholder="ph_nombre" required oninput="validateField(this, 'nombre')">
                         <i class="fas fa-check-circle validation-icon" id="nombre-valid"></i>
                         <i class="fas fa-times-circle validation-icon" id="nombre-invalid"></i>
                     </div>
                     <div class="error-msg" id="nombre-error">
                         <i class="fas fa-exclamation-circle"></i>
-                        Por favor, introduce tu nombre.
+                        <span data-i18n="err_nombre">Por favor, introduce tu nombre.</span>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="telefono">
                         <i class="fas fa-phone label-icon"></i>
-                        Teléfono / WhatsApp *
+                        <span data-i18n="lbl_telefono">Teléfono / WhatsApp *</span>
                     </label>
                     <div class="input-wrapper">
                         <i class="fas fa-mobile-alt input-icon"></i>
-                        <input type="tel" id="telefono" placeholder="Ej: 631 419 471" required oninput="validateField(this, 'telefono')">
+                        <input type="tel" id="telefono" placeholder="Ej: 631 419 471" data-i18n-placeholder="ph_telefono" required oninput="validateField(this, 'telefono')">
                         <i class="fas fa-check-circle validation-icon" id="telefono-valid"></i>
                         <i class="fas fa-times-circle validation-icon" id="telefono-invalid"></i>
                     </div>
                     <div class="error-msg" id="telefono-error">
                         <i class="fas fa-exclamation-circle"></i>
-                        Introduce un teléfono válido (9 dígitos).
+                        <span data-i18n="err_telefono">Introduce un teléfono válido (9 dígitos).</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">
                         <i class="fas fa-envelope label-icon"></i>
-                        Correo electrónico (Opcional)
+                        <span data-i18n="lbl_email">Correo electrónico (Opcional)</span>
                     </label>
                     <div class="input-wrapper">
                         <i class="fas fa-at input-icon"></i>
@@ -1115,38 +1241,38 @@
                 <div class="form-group">
                     <label for="comentarios">
                         <i class="fas fa-comment label-icon"></i>
-                        Comentarios adicionales
+                        <span data-i18n="lbl_comentarios">Comentarios adicionales</span>
                     </label>
                     <div class="input-wrapper">
                         <i class="fas fa-comment-dots input-icon" style="top: 1rem;"></i>
-                        <textarea id="comentarios" rows="3" placeholder="¿Algo más que debamos saber?"></textarea>
+                        <textarea id="comentarios" rows="3" placeholder="¿Algo más que debamos saber?" data-i18n-placeholder="ph_comentarios"></textarea>
                     </div>
                 </div>
             </form>
 
             <div class="actions">
                 <button class="btn btn-secondary" onclick="prevStep(2)">
-                    <i class="fas fa-arrow-left"></i> Atrás
+                    <i class="fas fa-arrow-left"></i> <span data-i18n="btn_back">Atrás</span>
                 </button>
                 <button class="btn btn-primary" onclick="validateAndNext(4)">
-                    Revisar Solicitud <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="btn_review">Revisar Solicitud</span> <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
 
         <!-- PASO 4 -->
         <div id="step4" class="card step-content hidden">
-            <h2>Revisa tu Solicitud</h2>
-            <p class="subtitle">Asegúrate de que todo esté correcto antes de enviar.</p>
+            <h2 data-i18n="step4_title">Revisa tu Solicitud</h2>
+            <p class="subtitle" data-i18n="step4_subtitle">Asegúrate de que todo esté correcto antes de enviar.</p>
             
             <div id="summaryContainer" style="margin-bottom: 1.5rem;"></div>
 
             <div class="actions" style="flex-direction: column;">
                 <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
-                    <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                    <i class="fab fa-whatsapp"></i> <span data-i18n="btn_send_whatsapp">Enviar por WhatsApp</span>
                 </button>
                 <button class="btn btn-secondary" onclick="prevStep(3)" style="margin-top: 0.5rem;">
-                    <i class="fas fa-edit"></i> Modificar datos
+                    <i class="fas fa-edit"></i> <span data-i18n="btn_edit">Modificar datos</span>
                 </button>
             </div>
         </div>
@@ -1156,10 +1282,10 @@
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
-            <h2>¡Solicitud Preparada!</h2>
-            <p class="subtitle">Se ha abierto WhatsApp con tu solicitud. Solo tienes que pulsar "Enviar" en tu aplicación de mensajería.</p>
+            <h2 data-i18n="success_title">¡Solicitud Preparada!</h2>
+            <p class="subtitle" data-i18n="success_subtitle">Se ha abierto WhatsApp con tu solicitud. Solo tienes que pulsar "Enviar" en tu aplicación de mensajería.</p>
             <button class="btn btn-primary" onclick="resetApp()" style="width: 100%; margin-top: 1rem;">
-                <i class="fas fa-plus"></i> Nueva Solicitud
+                <i class="fas fa-plus"></i> <span data-i18n="btn_new_request">Nueva Solicitud</span>
             </button>
         </div>
 
@@ -1167,11 +1293,11 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-        <p>&copy; <span id="footerYear"></span> Multiservicios Nassim. Todos los derechos reservados.</p>
+        <p>&copy; <span id="footerYear"></span> <span data-i18n="footer_rights">Multiservicios Nassim. Todos los derechos reservados.</span></p>
         <div class="footer-links">
-            <button type="button" class="footer-link" onclick="openPolicyModal('cookies')">Política de Cookies</button>
+            <button type="button" class="footer-link" onclick="openPolicyModal('cookies')" data-i18n="footer_cookies">Política de Cookies</button>
             <span class="footer-sep">·</span>
-            <button type="button" class="footer-link" onclick="openPolicyModal('privacidad')">Política de Privacidad</button>
+            <button type="button" class="footer-link" onclick="openPolicyModal('privacidad')" data-i18n="footer_privacy">Política de Privacidad</button>
         </div>
     </footer>
 
@@ -1180,7 +1306,7 @@
         <div class="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle">
             <div class="policy-modal-header">
                 <h3 id="policyModalTitle">Política</h3>
-                <button type="button" class="policy-modal-close" onclick="closePolicyModal()" aria-label="Cerrar">
+                <button type="button" class="policy-modal-close" onclick="closePolicyModal()" aria-label="Cerrar" data-i18n-aria="policy_close_aria">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -1200,45 +1326,416 @@
             contact: {}
         };
 
-        // 🆕 Configuración de campos MEJORADA con iconos, bloques y contadores
+        // ==========================================
+        // 🌐 SISTEMA DE IDIOMAS (ES / EN / FR / AR)
+        // ==========================================
+        const SUPPORTED_LANGS = ['es', 'en', 'fr', 'ar'];
+        const RTL_LANGS = ['ar'];
+
+        const translations = {
+            es: {
+                meta_title: "Portal de Servicios | Multiservicios Nassim",
+                meta_description: "Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.",
+                header_llamar: "Llamar",
+                header_llamar_aria: "Llamar",
+                header_menu_aria: "Abrir menú",
+                step_ind_1: "1. Servicio", step_ind_2: "2. Detalles", step_ind_3: "3. Datos", step_ind_4: "4. Enviar",
+                step1_title: "¿Qué necesitas?",
+                step1_subtitle: "Toca el servicio que deseas solicitar para abrir el formulario al instante.",
+                svc_equipaje_title: "Envío de Equipaje", svc_equipaje_desc: "Maletas y paquetes internacionales",
+                svc_maritimo_title: "Billetes Marítimos", svc_maritimo_desc: "Ferris y transporte por mar",
+                svc_vuelos_title: "Buscador de Vuelos", svc_vuelos_desc: "Mejores ofertas nacionales e internacionales",
+                svc_citas_title: "Citas Administrativas", svc_citas_desc: "Extranjería, registro civil y trámites",
+                svc_inmobiliaria_title: "Intermediación Inmobiliaria", svc_inmobiliaria_desc: "Compra, venta o alquiler en Murcia",
+                btn_back: "Atrás", btn_continue: "Continuar", btn_review: "Revisar Solicitud",
+                btn_send_whatsapp: "Enviar por WhatsApp", btn_edit: "Modificar datos", btn_new_request: "Nueva Solicitud",
+                step3_title: "Tus Datos de Contacto",
+                step3_subtitle: "Necesitamos esta información para contactarte rápidamente.",
+                lbl_nombre: "Nombre completo *", ph_nombre: "Ej: Juan Pérez", err_nombre: "Por favor, introduce tu nombre.",
+                lbl_telefono: "Teléfono / WhatsApp *", ph_telefono: "Ej: 631 419 471", err_telefono: "Introduce un teléfono válido (9 dígitos).",
+                lbl_email: "Correo electrónico (Opcional)",
+                lbl_comentarios: "Comentarios adicionales", ph_comentarios: "¿Algo más que debamos saber?",
+                step4_title: "Revisa tu Solicitud", step4_subtitle: "Asegúrate de que todo esté correcto antes de enviar.",
+                success_title: "¡Solicitud Preparada!",
+                success_subtitle: "Se ha abierto WhatsApp con tu solicitud. Solo tienes que pulsar \"Enviar\" en tu aplicación de mensajería.",
+                footer_rights: "Multiservicios Nassim. Todos los derechos reservados.",
+                footer_cookies: "Política de Cookies", footer_privacy: "Política de Privacidad",
+                policy_close_aria: "Cerrar",
+                alert_required: "Por favor, completa todos los campos obligatorios marcados con *",
+                cfg_equipaje_title: "Detalles del Envío", cfg_equipaje_subtitle: "Indica las características de tu equipaje o paquete.",
+                cfg_maritimo_title: "Detalles del Viaje Marítimo", cfg_maritimo_subtitle: "¿A dónde quieres navegar? Buscaremos las mejores rutas.",
+                cfg_vuelos_title: "Búsqueda de Vuelos", cfg_vuelos_subtitle: "Dinos tus preferencias y encontraremos el mejor precio.",
+                cfg_citas_title: "Gestión de Citas Administrativas", cfg_citas_subtitle: "Cuéntanos qué trámite necesitas gestionar.",
+                cfg_inmobiliaria_title: "Servicio Inmobiliario", cfg_inmobiliaria_subtitle: "¿Buscas comprar, vender o alquilar en Murcia?",
+                eq_route_section: "Ruta del envío", eq_origen_label: "Origen (Ciudad/País) *", eq_origen_ph: "Ej: Madrid, España",
+                eq_destino_label: "Destino (Ciudad/País) *", eq_destino_ph: "Ej: Buenos Aires, Argentina",
+                eq_package_section: "Características del paquete", eq_peso_label: "Bultos y peso *", eq_peso_ph: "Ej: 2 maletas, 20kg cada una",
+                eq_fecha_label: "Fecha estimada de envío",
+                mar_route_section: "Ruta del viaje", mar_origen_label: "Puerto de Origen *", mar_origen_ph: "Ej: Valencia",
+                mar_destino_label: "Puerto de Destino *", mar_destino_ph: "Ej: Palma de Mallorca",
+                fecha_ida_label: "Fecha de ida *", fecha_vuelta_label: "Fecha de vuelta",
+                passengers_section: "Pasajeros", adultos_label: "Adultos *", menores_label: "Menores",
+                vehiculo_section: "Vehículo", vehiculo_label: "¿Viaja con vehículo?",
+                vehiculo_no: "No, viajo sin vehículo", vehiculo_si: "Sí, llevo vehículo",
+                marca_label: "Marca/Modelo del vehículo", marca_ph: "Ej: Ford Fiesta",
+                vue_route_section: "Ruta del vuelo", vue_origen_label: "Ciudad/Aeropuerto de Origen *", vue_origen_ph: "Ej: Madrid (MAD)",
+                vue_destino_label: "Ciudad/Aeropuerto de Destino *", vue_destino_ph: "Ej: Roma (FCO)",
+                citas_type_section: "Tipo de trámite", tramite_label: "Trámite que necesitas *",
+                tramite_placeholder_opt: "Selecciona una opción...",
+                tramite_opt_extranjeria: "Extranjería (TIE, Prórroga, Nacionalidad)", tramite_opt_registro: "Registro Civil",
+                tramite_opt_dni: "DNI/Pasaporte", tramite_opt_otro: "Otro (especificar en comentarios)",
+                interesado_label: "Nombre del interesado (si es distinto)", interesado_ph: "Ej: María López",
+                urgencia_label: "Urgencia", urgencia_opt_normal: "Normal (1-2 semanas)", urgencia_opt_urgente: "Urgente (lo antes posible)",
+                inm_operation_section: "Operación", operacion_label: "¿Qué deseas hacer? *",
+                operacion_opt_comprar: "Comprar una propiedad", operacion_opt_vender: "Vender una propiedad", operacion_opt_alquilar: "Alquilar una propiedad",
+                propiedad_label: "Tipo de propiedad *", propiedad_opt_piso: "Piso/Apartamento", propiedad_opt_casa: "Casa/Chalet",
+                propiedad_opt_local: "Local Comercial", propiedad_opt_terreno: "Terreno",
+                inm_pref_section: "Preferencias", zona_label: "Zona de interés en Murcia", zona_ph: "Ej: Alcantarilla, Murcia centro...",
+                presupuesto_label: "Presupuesto aproximado", presupuesto_ph: "Ej: 150.000€",
+                sum_servicio: "Servicio", sum_nombre: "Nombre", sum_telefono: "Teléfono", sum_comentarios: "Comentarios",
+                fl_origen: "Origen", fl_destino: "Destino", fl_peso: "Bultos y peso", fl_fecha_ida: "Fecha de ida",
+                fl_adultos: "Adultos", fl_marca: "Vehículo", fl_tramite: "Trámite", fl_operacion: "Operación", fl_propiedad: "Tipo de propiedad",
+                wa_header: "NUEVA SOLICITUD WEB - MULTISERVICIOS NASSIM", wa_servicio: "Servicio", wa_cliente: "Cliente",
+                wa_telefono: "Teléfono", wa_detalles: "DETALLES", wa_comentarios: "Comentarios",
+                wa_footer: "Enviado desde la web de Multiservicios Nassim.",
+                cookies_title: "Política de Cookies",
+                cookies_body: `<p>En Multiservicios Nassim utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación, analizar el uso del sitio y ofrecerte contenido adecuado a tus preferencias.</p>
+                    <h4>¿Qué son las cookies?</h4>
+                    <p>Son pequeños archivos que se almacenan en tu navegador cuando visitas nuestra web, y que permiten recordar información entre sesiones.</p>
+                    <h4>Tipos de cookies que utilizamos</h4>
+                    <ul>
+                        <li><strong>Técnicas:</strong> necesarias para el funcionamiento básico del sitio.</li>
+                        <li><strong>Analíticas:</strong> nos ayudan a entender cómo se usa la web para mejorarla.</li>
+                        <li><strong>Funcionales:</strong> recuerdan tus preferencias para ofrecerte una experiencia más personalizada.</li>
+                    </ul>
+                    <h4>Cómo gestionar las cookies</h4>
+                    <p>Puedes permitir, bloquear o eliminar las cookies mediante la configuración de tu navegador. Si las desactivas, algunas funciones del sitio podrían no funcionar correctamente.</p>`,
+                privacy_title: "Política de Privacidad",
+                privacy_body: `<p>En Multiservicios Nassim nos comprometemos a proteger tu privacidad conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).</p>
+                    <h4>Responsable del tratamiento</h4>
+                    <p>Multiservicios Nassim, con actividad en Alcantarilla (Murcia), es responsable del tratamiento de los datos que nos facilitas.</p>
+                    <h4>Datos que recopilamos</h4>
+                    <p>Nombre, teléfono, correo electrónico y los detalles del servicio solicitado que nos indiques voluntariamente.</p>
+                    <h4>Finalidad</h4>
+                    <p>Gestionar tu solicitud y contactar contigo por teléfono, WhatsApp o email para dar respuesta a tu petición.</p>
+                    <h4>Tus derechos</h4>
+                    <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad contactando con nosotros.</p>
+                    <h4>Conservación</h4>
+                    <p>Tus datos se conservarán únicamente el tiempo necesario para gestionar tu solicitud, salvo obligación legal de conservarlos por más tiempo.</p>`
+            },
+            en: {
+                meta_title: "Service Portal | Multiservicios Nassim",
+                meta_description: "Web app to request travel, paperwork and real estate services in Alcantarilla.",
+                header_llamar: "Call", header_llamar_aria: "Call", header_menu_aria: "Open menu",
+                step_ind_1: "1. Service", step_ind_2: "2. Details", step_ind_3: "3. Contact", step_ind_4: "4. Send",
+                step1_title: "What do you need?",
+                step1_subtitle: "Tap the service you want to request to open the form instantly.",
+                svc_equipaje_title: "Luggage Shipping", svc_equipaje_desc: "International bags and packages",
+                svc_maritimo_title: "Ferry Tickets", svc_maritimo_desc: "Ferries and sea transport",
+                svc_vuelos_title: "Flight Search", svc_vuelos_desc: "Best domestic and international deals",
+                svc_citas_title: "Administrative Appointments", svc_citas_desc: "Immigration, civil registry and paperwork",
+                svc_inmobiliaria_title: "Real Estate Brokerage", svc_inmobiliaria_desc: "Buy, sell or rent in Murcia",
+                btn_back: "Back", btn_continue: "Continue", btn_review: "Review Request",
+                btn_send_whatsapp: "Send via WhatsApp", btn_edit: "Edit details", btn_new_request: "New Request",
+                step3_title: "Your Contact Details",
+                step3_subtitle: "We need this information to contact you quickly.",
+                lbl_nombre: "Full name *", ph_nombre: "E.g: John Smith", err_nombre: "Please enter your name.",
+                lbl_telefono: "Phone / WhatsApp *", ph_telefono: "E.g: 631 419 471", err_telefono: "Enter a valid phone number (9 digits).",
+                lbl_email: "Email (Optional)",
+                lbl_comentarios: "Additional comments", ph_comentarios: "Anything else we should know?",
+                step4_title: "Review Your Request", step4_subtitle: "Make sure everything is correct before sending.",
+                success_title: "Request Ready!",
+                success_subtitle: "WhatsApp has opened with your request. Just tap \"Send\" in your messaging app.",
+                footer_rights: "Multiservicios Nassim. All rights reserved.",
+                footer_cookies: "Cookie Policy", footer_privacy: "Privacy Policy",
+                policy_close_aria: "Close",
+                alert_required: "Please complete all required fields marked with *",
+                cfg_equipaje_title: "Shipping Details", cfg_equipaje_subtitle: "Tell us about your luggage or package.",
+                cfg_maritimo_title: "Ferry Trip Details", cfg_maritimo_subtitle: "Where do you want to sail? We'll find the best routes.",
+                cfg_vuelos_title: "Flight Search", cfg_vuelos_subtitle: "Tell us your preferences and we'll find the best price.",
+                cfg_citas_title: "Administrative Appointment", cfg_citas_subtitle: "Tell us which paperwork you need to manage.",
+                cfg_inmobiliaria_title: "Real Estate Service", cfg_inmobiliaria_subtitle: "Looking to buy, sell or rent in Murcia?",
+                eq_route_section: "Shipping route", eq_origen_label: "Origin (City/Country) *", eq_origen_ph: "E.g: Madrid, Spain",
+                eq_destino_label: "Destination (City/Country) *", eq_destino_ph: "E.g: Buenos Aires, Argentina",
+                eq_package_section: "Package details", eq_peso_label: "Pieces and weight *", eq_peso_ph: "E.g: 2 bags, 20kg each",
+                eq_fecha_label: "Estimated shipping date",
+                mar_route_section: "Trip route", mar_origen_label: "Port of Origin *", mar_origen_ph: "E.g: Valencia",
+                mar_destino_label: "Port of Destination *", mar_destino_ph: "E.g: Palma de Mallorca",
+                fecha_ida_label: "Departure date *", fecha_vuelta_label: "Return date",
+                passengers_section: "Passengers", adultos_label: "Adults *", menores_label: "Children",
+                vehiculo_section: "Vehicle", vehiculo_label: "Travelling with a vehicle?",
+                vehiculo_no: "No, travelling without a vehicle", vehiculo_si: "Yes, bringing a vehicle",
+                marca_label: "Vehicle make/model", marca_ph: "E.g: Ford Fiesta",
+                vue_route_section: "Flight route", vue_origen_label: "Origin City/Airport *", vue_origen_ph: "E.g: Madrid (MAD)",
+                vue_destino_label: "Destination City/Airport *", vue_destino_ph: "E.g: Rome (FCO)",
+                citas_type_section: "Type of paperwork", tramite_label: "Paperwork you need *",
+                tramite_placeholder_opt: "Select an option...",
+                tramite_opt_extranjeria: "Immigration (TIE, Extension, Nationality)", tramite_opt_registro: "Civil Registry",
+                tramite_opt_dni: "ID/Passport", tramite_opt_otro: "Other (specify in comments)",
+                interesado_label: "Name of applicant (if different)", interesado_ph: "E.g: Maria Lopez",
+                urgencia_label: "Urgency", urgencia_opt_normal: "Normal (1-2 weeks)", urgencia_opt_urgente: "Urgent (ASAP)",
+                inm_operation_section: "Operation", operacion_label: "What do you want to do? *",
+                operacion_opt_comprar: "Buy a property", operacion_opt_vender: "Sell a property", operacion_opt_alquilar: "Rent a property",
+                propiedad_label: "Property type *", propiedad_opt_piso: "Flat/Apartment", propiedad_opt_casa: "House/Villa",
+                propiedad_opt_local: "Commercial Unit", propiedad_opt_terreno: "Land",
+                inm_pref_section: "Preferences", zona_label: "Area of interest in Murcia", zona_ph: "E.g: Alcantarilla, Murcia city centre...",
+                presupuesto_label: "Approximate budget", presupuesto_ph: "E.g: €150,000",
+                sum_servicio: "Service", sum_nombre: "Name", sum_telefono: "Phone", sum_comentarios: "Comments",
+                fl_origen: "Origin", fl_destino: "Destination", fl_peso: "Pieces and weight", fl_fecha_ida: "Departure date",
+                fl_adultos: "Adults", fl_marca: "Vehicle", fl_tramite: "Paperwork", fl_operacion: "Operation", fl_propiedad: "Property type",
+                wa_header: "NEW WEB REQUEST - MULTISERVICIOS NASSIM", wa_servicio: "Service", wa_cliente: "Client",
+                wa_telefono: "Phone", wa_detalles: "DETAILS", wa_comentarios: "Comments",
+                wa_footer: "Sent from the Multiservicios Nassim website.",
+                cookies_title: "Cookie Policy",
+                cookies_body: `<p>At Multiservicios Nassim we use our own and third-party cookies to improve your browsing experience, analyse site usage and offer content suited to your preferences.</p>
+                    <h4>What are cookies?</h4>
+                    <p>Small files stored in your browser when you visit our website, allowing information to be remembered between sessions.</p>
+                    <h4>Types of cookies we use</h4>
+                    <ul>
+                        <li><strong>Technical:</strong> necessary for the basic operation of the site.</li>
+                        <li><strong>Analytical:</strong> help us understand how the site is used so we can improve it.</li>
+                        <li><strong>Functional:</strong> remember your preferences to offer a more personalised experience.</li>
+                    </ul>
+                    <h4>Managing cookies</h4>
+                    <p>You can allow, block or delete cookies via your browser settings. If you disable them, some site features may not work correctly.</p>`,
+                privacy_title: "Privacy Policy",
+                privacy_body: `<p>At Multiservicios Nassim we are committed to protecting your privacy in accordance with Regulation (EU) 2016/679 (GDPR).</p>
+                    <h4>Data controller</h4>
+                    <p>Multiservicios Nassim, based in Alcantarilla (Murcia, Spain), is responsible for processing the data you provide us.</p>
+                    <h4>Data we collect</h4>
+                    <p>Name, phone number, email and the details of the requested service that you voluntarily provide.</p>
+                    <h4>Purpose</h4>
+                    <p>To manage your request and contact you by phone, WhatsApp or email to respond to it.</p>
+                    <h4>Your rights</h4>
+                    <p>You may exercise your rights of access, rectification, erasure, objection, restriction and portability by contacting us.</p>
+                    <h4>Retention</h4>
+                    <p>Your data will only be kept for as long as necessary to manage your request, unless a longer period is legally required.</p>`
+            },
+            fr: {
+                meta_title: "Portail de Services | Multiservicios Nassim",
+                meta_description: "Application web pour demander des services de voyage, démarches et immobilier à Alcantarilla.",
+                header_llamar: "Appeler", header_llamar_aria: "Appeler", header_menu_aria: "Ouvrir le menu",
+                step_ind_1: "1. Service", step_ind_2: "2. Détails", step_ind_3: "3. Coordonnées", step_ind_4: "4. Envoyer",
+                step1_title: "De quoi avez-vous besoin ?",
+                step1_subtitle: "Touchez le service que vous souhaitez demander pour ouvrir le formulaire instantanément.",
+                svc_equipaje_title: "Envoi de Bagages", svc_equipaje_desc: "Valises et colis internationaux",
+                svc_maritimo_title: "Billets Maritimes", svc_maritimo_desc: "Ferrys et transport maritime",
+                svc_vuelos_title: "Recherche de Vols", svc_vuelos_desc: "Meilleures offres nationales et internationales",
+                svc_citas_title: "Rendez-vous Administratifs", svc_citas_desc: "Immigration, état civil et démarches",
+                svc_inmobiliaria_title: "Intermédiation Immobilière", svc_inmobiliaria_desc: "Achat, vente ou location à Murcie",
+                btn_back: "Retour", btn_continue: "Continuer", btn_review: "Vérifier la demande",
+                btn_send_whatsapp: "Envoyer via WhatsApp", btn_edit: "Modifier les données", btn_new_request: "Nouvelle demande",
+                step3_title: "Vos Coordonnées",
+                step3_subtitle: "Nous avons besoin de ces informations pour vous contacter rapidement.",
+                lbl_nombre: "Nom complet *", ph_nombre: "Ex : Jean Dupont", err_nombre: "Veuillez indiquer votre nom.",
+                lbl_telefono: "Téléphone / WhatsApp *", ph_telefono: "Ex : 631 419 471", err_telefono: "Indiquez un numéro valide (9 chiffres).",
+                lbl_email: "E-mail (Facultatif)",
+                lbl_comentarios: "Commentaires supplémentaires", ph_comentarios: "Autre chose que nous devrions savoir ?",
+                step4_title: "Vérifiez votre demande", step4_subtitle: "Assurez-vous que tout est correct avant d'envoyer.",
+                success_title: "Demande Prête !",
+                success_subtitle: "WhatsApp s'est ouvert avec votre demande. Il vous suffit d'appuyer sur \"Envoyer\" dans votre application de messagerie.",
+                footer_rights: "Multiservicios Nassim. Tous droits réservés.",
+                footer_cookies: "Politique de Cookies", footer_privacy: "Politique de Confidentialité",
+                policy_close_aria: "Fermer",
+                alert_required: "Veuillez compléter tous les champs obligatoires marqués d'un *",
+                cfg_equipaje_title: "Détails de l'Envoi", cfg_equipaje_subtitle: "Indiquez les caractéristiques de vos bagages ou colis.",
+                cfg_maritimo_title: "Détails du Voyage Maritime", cfg_maritimo_subtitle: "Où souhaitez-vous naviguer ? Nous trouverons les meilleurs itinéraires.",
+                cfg_vuelos_title: "Recherche de Vols", cfg_vuelos_subtitle: "Indiquez vos préférences, nous trouverons le meilleur prix.",
+                cfg_citas_title: "Gestion des Rendez-vous Administratifs", cfg_citas_subtitle: "Dites-nous quelle démarche vous devez gérer.",
+                cfg_inmobiliaria_title: "Service Immobilier", cfg_inmobiliaria_subtitle: "Vous cherchez à acheter, vendre ou louer à Murcie ?",
+                eq_route_section: "Itinéraire de l'envoi", eq_origen_label: "Origine (Ville/Pays) *", eq_origen_ph: "Ex : Madrid, Espagne",
+                eq_destino_label: "Destination (Ville/Pays) *", eq_destino_ph: "Ex : Buenos Aires, Argentine",
+                eq_package_section: "Caractéristiques du colis", eq_peso_label: "Colis et poids *", eq_peso_ph: "Ex : 2 valises, 20 kg chacune",
+                eq_fecha_label: "Date d'envoi estimée",
+                mar_route_section: "Itinéraire du voyage", mar_origen_label: "Port d'origine *", mar_origen_ph: "Ex : Valence",
+                mar_destino_label: "Port de destination *", mar_destino_ph: "Ex : Palma de Majorque",
+                fecha_ida_label: "Date de départ *", fecha_vuelta_label: "Date de retour",
+                passengers_section: "Passagers", adultos_label: "Adultes *", menores_label: "Enfants",
+                vehiculo_section: "Véhicule", vehiculo_label: "Voyagez-vous avec un véhicule ?",
+                vehiculo_no: "Non, sans véhicule", vehiculo_si: "Oui, avec véhicule",
+                marca_label: "Marque/Modèle du véhicule", marca_ph: "Ex : Ford Fiesta",
+                vue_route_section: "Itinéraire du vol", vue_origen_label: "Ville/Aéroport d'origine *", vue_origen_ph: "Ex : Madrid (MAD)",
+                vue_destino_label: "Ville/Aéroport de destination *", vue_destino_ph: "Ex : Rome (FCO)",
+                citas_type_section: "Type de démarche", tramite_label: "Démarche dont vous avez besoin *",
+                tramite_placeholder_opt: "Sélectionnez une option...",
+                tramite_opt_extranjeria: "Immigration (TIE, Prorogation, Nationalité)", tramite_opt_registro: "État Civil",
+                tramite_opt_dni: "Carte d'identité/Passeport", tramite_opt_otro: "Autre (préciser dans les commentaires)",
+                interesado_label: "Nom du concerné (si différent)", interesado_ph: "Ex : Marie Martin",
+                urgencia_label: "Urgence", urgencia_opt_normal: "Normale (1-2 semaines)", urgencia_opt_urgente: "Urgente (dès que possible)",
+                inm_operation_section: "Opération", operacion_label: "Que souhaitez-vous faire ? *",
+                operacion_opt_comprar: "Acheter un bien", operacion_opt_vender: "Vendre un bien", operacion_opt_alquilar: "Louer un bien",
+                propiedad_label: "Type de bien *", propiedad_opt_piso: "Appartement", propiedad_opt_casa: "Maison/Villa",
+                propiedad_opt_local: "Local Commercial", propiedad_opt_terreno: "Terrain",
+                inm_pref_section: "Préférences", zona_label: "Zone d'intérêt à Murcie", zona_ph: "Ex : Alcantarilla, centre de Murcie...",
+                presupuesto_label: "Budget approximatif", presupuesto_ph: "Ex : 150 000 €",
+                sum_servicio: "Service", sum_nombre: "Nom", sum_telefono: "Téléphone", sum_comentarios: "Commentaires",
+                fl_origen: "Origine", fl_destino: "Destination", fl_peso: "Colis et poids", fl_fecha_ida: "Date de départ",
+                fl_adultos: "Adultes", fl_marca: "Véhicule", fl_tramite: "Démarche", fl_operacion: "Opération", fl_propiedad: "Type de bien",
+                wa_header: "NOUVELLE DEMANDE WEB - MULTISERVICIOS NASSIM", wa_servicio: "Service", wa_cliente: "Client",
+                wa_telefono: "Téléphone", wa_detalles: "DÉTAILS", wa_comentarios: "Commentaires",
+                wa_footer: "Envoyé depuis le site de Multiservicios Nassim.",
+                cookies_title: "Politique de Cookies",
+                cookies_body: `<p>Chez Multiservicios Nassim, nous utilisons des cookies propres et tiers pour améliorer votre navigation, analyser l'utilisation du site et vous proposer un contenu adapté.</p>
+                    <h4>Que sont les cookies ?</h4>
+                    <p>De petits fichiers stockés dans votre navigateur lors de votre visite, permettant de mémoriser des informations entre les sessions.</p>
+                    <h4>Types de cookies utilisés</h4>
+                    <ul>
+                        <li><strong>Techniques :</strong> nécessaires au fonctionnement de base du site.</li>
+                        <li><strong>Analytiques :</strong> nous aident à comprendre l'utilisation du site pour l'améliorer.</li>
+                        <li><strong>Fonctionnels :</strong> mémorisent vos préférences pour une expérience personnalisée.</li>
+                    </ul>
+                    <h4>Gérer les cookies</h4>
+                    <p>Vous pouvez autoriser, bloquer ou supprimer les cookies via les paramètres de votre navigateur. Certaines fonctions pourraient ne plus fonctionner correctement si vous les désactivez.</p>`,
+                privacy_title: "Politique de Confidentialité",
+                privacy_body: `<p>Chez Multiservicios Nassim, nous nous engageons à protéger votre vie privée conformément au Règlement (UE) 2016/679 (RGPD).</p>
+                    <h4>Responsable du traitement</h4>
+                    <p>Multiservicios Nassim, basée à Alcantarilla (Murcie), est responsable du traitement des données que vous nous fournissez.</p>
+                    <h4>Données collectées</h4>
+                    <p>Nom, téléphone, e-mail et détails du service demandé, fournis volontairement.</p>
+                    <h4>Finalité</h4>
+                    <p>Gérer votre demande et vous contacter par téléphone, WhatsApp ou e-mail pour y répondre.</p>
+                    <h4>Vos droits</h4>
+                    <p>Vous pouvez exercer vos droits d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité en nous contactant.</p>
+                    <h4>Conservation</h4>
+                    <p>Vos données seront conservées uniquement le temps nécessaire au traitement de votre demande, sauf obligation légale plus longue.</p>`
+            },
+            ar: {
+                meta_title: "بوابة الخدمات | مالتيسيرفيسيوس ناسيم",
+                meta_description: "تطبيق ويب لطلب خدمات السفر والمعاملات والعقارات في ألكانتاريا.",
+                header_llamar: "اتصال", header_llamar_aria: "اتصال", header_menu_aria: "فتح القائمة",
+                step_ind_1: "١. الخدمة", step_ind_2: "٢. التفاصيل", step_ind_3: "٣. البيانات", step_ind_4: "٤. الإرسال",
+                step1_title: "ماذا تحتاج؟",
+                step1_subtitle: "اضغط على الخدمة التي ترغب في طلبها لفتح النموذج فورًا.",
+                svc_equipaje_title: "شحن الأمتعة", svc_equipaje_desc: "حقائب وطرود دولية",
+                svc_maritimo_title: "تذاكر بحرية", svc_maritimo_desc: "عبّارات ونقل بحري",
+                svc_vuelos_title: "البحث عن رحلات طيران", svc_vuelos_desc: "أفضل العروض المحلية والدولية",
+                svc_citas_title: "مواعيد إدارية", svc_citas_desc: "الهجرة والسجل المدني والمعاملات",
+                svc_inmobiliaria_title: "وساطة عقارية", svc_inmobiliaria_desc: "شراء أو بيع أو إيجار في مورسيا",
+                btn_back: "رجوع", btn_continue: "متابعة", btn_review: "مراجعة الطلب",
+                btn_send_whatsapp: "إرسال عبر واتساب", btn_edit: "تعديل البيانات", btn_new_request: "طلب جديد",
+                step3_title: "بيانات التواصل",
+                step3_subtitle: "نحتاج لهذه المعلومات للتواصل معك بسرعة.",
+                lbl_nombre: "الاسم الكامل *", ph_nombre: "مثال: محمد أحمد", err_nombre: "يرجى إدخال اسمك.",
+                lbl_telefono: "الهاتف / واتساب *", ph_telefono: "مثال: 631 419 471", err_telefono: "أدخل رقم هاتف صحيح (9 أرقام).",
+                lbl_email: "البريد الإلكتروني (اختياري)",
+                lbl_comentarios: "ملاحظات إضافية", ph_comentarios: "هل هناك شيء آخر يجب أن نعرفه؟",
+                step4_title: "راجع طلبك", step4_subtitle: "تأكد من صحة جميع البيانات قبل الإرسال.",
+                success_title: "تم تجهيز الطلب!",
+                success_subtitle: "تم فتح واتساب مع طلبك. فقط اضغط \"إرسال\" في تطبيق المراسلة الخاص بك.",
+                footer_rights: "مالتيسيرفيسيوس ناسيم. جميع الحقوق محفوظة.",
+                footer_cookies: "سياسة ملفات تعريف الارتباط", footer_privacy: "سياسة الخصوصية",
+                policy_close_aria: "إغلاق",
+                alert_required: "يرجى استكمال جميع الحقول الإلزامية المميزة بعلامة *",
+                cfg_equipaje_title: "تفاصيل الشحنة", cfg_equipaje_subtitle: "أخبرنا بمواصفات أمتعتك أو طردك.",
+                cfg_maritimo_title: "تفاصيل الرحلة البحرية", cfg_maritimo_subtitle: "إلى أين تريد الإبحار؟ سنجد أفضل المسارات.",
+                cfg_vuelos_title: "البحث عن رحلات طيران", cfg_vuelos_subtitle: "أخبرنا بتفضيلاتك وسنجد أفضل سعر.",
+                cfg_citas_title: "إدارة المواعيد الإدارية", cfg_citas_subtitle: "أخبرنا بالمعاملة التي تحتاج إلى إدارتها.",
+                cfg_inmobiliaria_title: "خدمة عقارية", cfg_inmobiliaria_subtitle: "هل تبحث عن الشراء أو البيع أو الإيجار في مورسيا؟",
+                eq_route_section: "مسار الشحنة", eq_origen_label: "المنشأ (المدينة/الدولة) *", eq_origen_ph: "مثال: مدريد، إسبانيا",
+                eq_destino_label: "الوجهة (المدينة/الدولة) *", eq_destino_ph: "مثال: بوينس آيرس، الأرجنتين",
+                eq_package_section: "مواصفات الطرد", eq_peso_label: "عدد القطع والوزن *", eq_peso_ph: "مثال: حقيبتان، 20 كجم لكل واحدة",
+                eq_fecha_label: "تاريخ الشحن المتوقع",
+                mar_route_section: "مسار الرحلة", mar_origen_label: "ميناء المغادرة *", mar_origen_ph: "مثال: فالنسيا",
+                mar_destino_label: "ميناء الوصول *", mar_destino_ph: "مثال: بالما دي مايوركا",
+                fecha_ida_label: "تاريخ الذهاب *", fecha_vuelta_label: "تاريخ العودة",
+                passengers_section: "الركاب", adultos_label: "البالغون *", menores_label: "الأطفال",
+                vehiculo_section: "المركبة", vehiculo_label: "هل تسافر بمركبة؟",
+                vehiculo_no: "لا، أسافر بدون مركبة", vehiculo_si: "نعم، سأحضر مركبة",
+                marca_label: "ماركة/طراز المركبة", marca_ph: "مثال: فورد فييستا",
+                vue_route_section: "مسار الرحلة الجوية", vue_origen_label: "مدينة/مطار المغادرة *", vue_origen_ph: "مثال: مدريد (MAD)",
+                vue_destino_label: "مدينة/مطار الوصول *", vue_destino_ph: "مثال: روما (FCO)",
+                citas_type_section: "نوع المعاملة", tramite_label: "المعاملة التي تحتاجها *",
+                tramite_placeholder_opt: "اختر خيارًا...",
+                tramite_opt_extranjeria: "الهجرة (بطاقة الإقامة، التمديد، الجنسية)", tramite_opt_registro: "السجل المدني",
+                tramite_opt_dni: "بطاقة الهوية/جواز السفر", tramite_opt_otro: "أخرى (حدد في الملاحظات)",
+                interesado_label: "اسم صاحب الشأن (إن كان مختلفًا)", interesado_ph: "مثال: فاطمة الزهراء",
+                urgencia_label: "الأولوية", urgencia_opt_normal: "عادية (1-2 أسبوع)", urgencia_opt_urgente: "عاجلة (في أقرب وقت ممكن)",
+                inm_operation_section: "العملية", operacion_label: "ماذا تريد أن تفعل؟ *",
+                operacion_opt_comprar: "شراء عقار", operacion_opt_vender: "بيع عقار", operacion_opt_alquilar: "تأجير عقار",
+                propiedad_label: "نوع العقار *", propiedad_opt_piso: "شقة", propiedad_opt_casa: "منزل/فيلا",
+                propiedad_opt_local: "محل تجاري", propiedad_opt_terreno: "أرض",
+                inm_pref_section: "التفضيلات", zona_label: "منطقة الاهتمام في مورسيا", zona_ph: "مثال: ألكانتاريا، وسط مورسيا...",
+                presupuesto_label: "الميزانية التقريبية", presupuesto_ph: "مثال: 150,000 يورو",
+                sum_servicio: "الخدمة", sum_nombre: "الاسم", sum_telefono: "الهاتف", sum_comentarios: "الملاحظات",
+                fl_origen: "المنشأ", fl_destino: "الوجهة", fl_peso: "عدد القطع والوزن", fl_fecha_ida: "تاريخ الذهاب",
+                fl_adultos: "البالغون", fl_marca: "المركبة", fl_tramite: "المعاملة", fl_operacion: "العملية", fl_propiedad: "نوع العقار",
+                wa_header: "طلب جديد عبر الموقع - مالتيسيرفيسيوس ناسيم", wa_servicio: "الخدمة", wa_cliente: "العميل",
+                wa_telefono: "الهاتف", wa_detalles: "التفاصيل", wa_comentarios: "الملاحظات",
+                wa_footer: "تم الإرسال من موقع مالتيسيرفيسيوس ناسيم.",
+                cookies_title: "سياسة ملفات تعريف الارتباط",
+                cookies_body: `<p>في مالتيسيرفيسيوس ناسيم، نستخدم ملفات تعريف ارتباط خاصة بنا وتابعة لجهات أخرى لتحسين تجربة التصفح وتحليل استخدام الموقع وتقديم محتوى مناسب لتفضيلاتك.</p>
+                    <h4>ما هي ملفات تعريف الارتباط؟</h4>
+                    <p>هي ملفات صغيرة تُخزَّن في متصفحك عند زيارة موقعنا، وتتيح تذكر المعلومات بين الجلسات.</p>
+                    <h4>أنواع ملفات تعريف الارتباط التي نستخدمها</h4>
+                    <ul>
+                        <li><strong>تقنية:</strong> ضرورية للتشغيل الأساسي للموقع.</li>
+                        <li><strong>تحليلية:</strong> تساعدنا على فهم كيفية استخدام الموقع لتحسينه.</li>
+                        <li><strong>وظيفية:</strong> تتذكر تفضيلاتك لتقديم تجربة أكثر تخصيصًا.</li>
+                    </ul>
+                    <h4>كيفية إدارة ملفات تعريف الارتباط</h4>
+                    <p>يمكنك السماح بملفات تعريف الارتباط أو حظرها أو حذفها من إعدادات متصفحك. إذا عطّلتها، فقد لا تعمل بعض وظائف الموقع بشكل صحيح.</p>`,
+                privacy_title: "سياسة الخصوصية",
+                privacy_body: `<p>في مالتيسيرفيسيوس ناسيم، نلتزم بحماية خصوصيتك وفقًا للائحة الاتحاد الأوروبي العامة لحماية البيانات (GDPR).</p>
+                    <h4>المسؤول عن معالجة البيانات</h4>
+                    <p>مالتيسيرفيسيوس ناسيم، ومقرها ألكانتاريا (مورسيا)، هي المسؤولة عن معالجة البيانات التي تزودنا بها.</p>
+                    <h4>البيانات التي نجمعها</h4>
+                    <p>الاسم والهاتف والبريد الإلكتروني وتفاصيل الخدمة المطلوبة التي تقدمها طواعية.</p>
+                    <h4>الغرض</h4>
+                    <p>إدارة طلبك والتواصل معك عبر الهاتف أو واتساب أو البريد الإلكتروني للرد عليه.</p>
+                    <h4>حقوقك</h4>
+                    <p>يمكنك ممارسة حقوقك في الوصول والتصحيح والحذف والاعتراض والتقييد ونقل البيانات بالتواصل معنا.</p>
+                    <h4>مدة الاحتفاظ</h4>
+                    <p>سيتم الاحتفاظ ببياناتك فقط للمدة اللازمة لإدارة طلبك، ما لم يتطلب القانون مدة أطول.</p>`
+            }
+        };
+
+        let currentLang = 'es';
+
+        function t(key) {
+            return (translations[currentLang] && translations[currentLang][key])
+                || translations.es[key]
+                || key;
+        }
+
+        // 🆕 Configuración de campos MEJORADA con iconos, bloques y contadores (i18n)
         const serviceConfig = {
             equipaje: {
-                title: "Detalles del Envío",
-                subtitle: "Indica las características de tu equipaje o paquete.",
-                fields: `
+                titleKey: "cfg_equipaje_title",
+                subtitleKey: "cfg_equipaje_subtitle",
+                fields: () => `
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-route"></i> Ruta del envío
+                            <i class="fas fa-route"></i> ${t('eq_route_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-marker-alt label-icon"></i> Origen (Ciudad/País) *</label>
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> ${t('eq_origen_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-departure input-icon"></i>
-                                <input type="text" id="detail_origen_equipaje" data-field="origen" placeholder="Ej: Madrid, España" required>
+                                <input type="text" id="detail_origen_equipaje" data-field="origen" placeholder="${t('eq_origen_ph')}" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-pin label-icon"></i> Destino (Ciudad/País) *</label>
+                            <label><i class="fas fa-map-pin label-icon"></i> ${t('eq_destino_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-arrival input-icon"></i>
-                                <input type="text" id="detail_destino_equipaje" data-field="destino" placeholder="Ej: Buenos Aires, Argentina" required>
+                                <input type="text" id="detail_destino_equipaje" data-field="destino" placeholder="${t('eq_destino_ph')}" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-box"></i> Características del paquete
+                            <i class="fas fa-box"></i> ${t('eq_package_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-weight-hanging label-icon"></i> Bultos y peso *</label>
+                            <label><i class="fas fa-weight-hanging label-icon"></i> ${t('eq_peso_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-suitcase input-icon"></i>
-                                <input type="text" id="detail_peso" placeholder="Ej: 2 maletas, 20kg cada una" required>
+                                <input type="text" id="detail_peso" data-field="peso" placeholder="${t('eq_peso_ph')}" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-calendar label-icon"></i> Fecha estimada de envío</label>
+                            <label><i class="fas fa-calendar label-icon"></i> ${t('eq_fecha_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-calendar-alt input-icon"></i>
                                 <input type="date" id="detail_fecha">
@@ -1248,37 +1745,37 @@
                 `
             },
             maritimo: {
-                title: "Detalles del Viaje Marítimo",
-                subtitle: "¿A dónde quieres navegar? Buscaremos las mejores rutas.",
-                fields: `
+                titleKey: "cfg_maritimo_title",
+                subtitleKey: "cfg_maritimo_subtitle",
+                fields: () => `
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-anchor"></i> Ruta del viaje
+                            <i class="fas fa-anchor"></i> ${t('mar_route_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-marker-alt label-icon"></i> Puerto de Origen *</label>
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> ${t('mar_origen_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-ship input-icon"></i>
-                                <input type="text" id="detail_origen_maritimo" data-field="origen" placeholder="Ej: Valencia" required>
+                                <input type="text" id="detail_origen_maritimo" data-field="origen" placeholder="${t('mar_origen_ph')}" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-pin label-icon"></i> Puerto de Destino *</label>
+                            <label><i class="fas fa-map-pin label-icon"></i> ${t('mar_destino_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-flag-checkered input-icon"></i>
-                                <input type="text" id="detail_destino_maritimo" data-field="destino" placeholder="Ej: Palma de Mallorca" required>
+                                <input type="text" id="detail_destino_maritimo" data-field="destino" placeholder="${t('mar_destino_ph')}" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
+                                <label><i class="fas fa-calendar label-icon"></i> ${t('fecha_ida_label')}</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-alt input-icon"></i>
                                     <input type="date" id="detail_fecha_ida_maritimo" data-field="fecha_ida" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
+                                <label><i class="fas fa-calendar-check label-icon"></i> ${t('fecha_vuelta_label')}</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-check input-icon"></i>
                                     <input type="date" id="detail_fecha_vuelta_maritimo" data-field="fecha_vuelta">
@@ -1289,11 +1786,11 @@
 
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-users"></i> Pasajeros
+                            <i class="fas fa-users"></i> ${t('passengers_section')}
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label><i class="fas fa-user label-icon"></i> Adultos *</label>
+                                <label><i class="fas fa-user label-icon"></i> ${t('adultos_label')}</label>
                                 <div class="counter-group">
                                     <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_maritimo', -1, 1, 10)">
                                         <i class="fas fa-minus"></i>
@@ -1305,7 +1802,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-child label-icon"></i> Menores</label>
+                                <label><i class="fas fa-child label-icon"></i> ${t('menores_label')}</label>
                                 <div class="counter-group">
                                     <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_maritimo', -1, 0, 10)">
                                         <i class="fas fa-minus"></i>
@@ -1321,60 +1818,60 @@
 
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-car"></i> Vehículo
+                            <i class="fas fa-car"></i> ${t('vehiculo_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-question-circle label-icon"></i> ¿Viaja con vehículo?</label>
+                            <label><i class="fas fa-question-circle label-icon"></i> ${t('vehiculo_label')}</label>
                             <div class="input-wrapper select-wrapper">
                                 <i class="fas fa-car input-icon"></i>
                                 <select id="detail_vehiculo" onchange="toggleMarcaVehiculo(this.value)">
-                                    <option value="No">No, viajo sin vehículo</option>
-                                    <option value="Sí">Sí, llevo vehículo</option>
+                                    <option value="No">${t('vehiculo_no')}</option>
+                                    <option value="Sí">${t('vehiculo_si')}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group hidden" id="marca_vehiculo_group">
-                            <label><i class="fas fa-car-side label-icon"></i> Marca/Modelo del vehículo</label>
+                            <label><i class="fas fa-car-side label-icon"></i> ${t('marca_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-car input-icon"></i>
-                                <input type="text" id="detail_marca" placeholder="Ej: Ford Fiesta">
+                                <input type="text" id="detail_marca" data-field="marca" placeholder="${t('marca_ph')}">
                             </div>
                         </div>
                     </div>
                 `
             },
             vuelos: {
-                title: "Búsqueda de Vuelos",
-                subtitle: "Dinos tus preferencias y encontraremos el mejor precio.",
-                fields: `
+                titleKey: "cfg_vuelos_title",
+                subtitleKey: "cfg_vuelos_subtitle",
+                fields: () => `
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-route"></i> Ruta del vuelo
+                            <i class="fas fa-route"></i> ${t('vue_route_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-marker-alt label-icon"></i> Ciudad/Aeropuerto de Origen *</label>
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> ${t('vue_origen_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-departure input-icon"></i>
-                                <input type="text" id="detail_origen_vuelos" data-field="origen" placeholder="Ej: Madrid (MAD)" required>
+                                <input type="text" id="detail_origen_vuelos" data-field="origen" placeholder="${t('vue_origen_ph')}" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-pin label-icon"></i> Ciudad/Aeropuerto de Destino *</label>
+                            <label><i class="fas fa-map-pin label-icon"></i> ${t('vue_destino_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-plane-arrival input-icon"></i>
-                                <input type="text" id="detail_destino_vuelos" data-field="destino" placeholder="Ej: Roma (FCO)" required>
+                                <input type="text" id="detail_destino_vuelos" data-field="destino" placeholder="${t('vue_destino_ph')}" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label><i class="fas fa-calendar label-icon"></i> Fecha de ida *</label>
+                                <label><i class="fas fa-calendar label-icon"></i> ${t('fecha_ida_label')}</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-alt input-icon"></i>
                                     <input type="date" id="detail_fecha_ida_vuelos" data-field="fecha_ida" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-calendar-check label-icon"></i> Fecha de vuelta</label>
+                                <label><i class="fas fa-calendar-check label-icon"></i> ${t('fecha_vuelta_label')}</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-calendar-check input-icon"></i>
                                     <input type="date" id="detail_fecha_vuelta_vuelos" data-field="fecha_vuelta">
@@ -1385,11 +1882,11 @@
 
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-users"></i> Pasajeros
+                            <i class="fas fa-users"></i> ${t('passengers_section')}
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label><i class="fas fa-user label-icon"></i> Adultos *</label>
+                                <label><i class="fas fa-user label-icon"></i> ${t('adultos_label')}</label>
                                 <div class="counter-group">
                                     <button type="button" class="counter-btn" onclick="updateCounter('detail_adultos_vuelos', -1, 1, 10)">
                                         <i class="fas fa-minus"></i>
@@ -1401,7 +1898,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-child label-icon"></i> Menores</label>
+                                <label><i class="fas fa-child label-icon"></i> ${t('menores_label')}</label>
                                 <div class="counter-group">
                                     <button type="button" class="counter-btn" onclick="updateCounter('detail_menores_vuelos', -1, 0, 10)">
                                         <i class="fas fa-minus"></i>
@@ -1417,40 +1914,40 @@
                 `
             },
             citas: {
-                title: "Gestión de Citas Administrativas",
-                subtitle: "Cuéntanos qué trámite necesitas gestionar.",
-                fields: `
+                titleKey: "cfg_citas_title",
+                subtitleKey: "cfg_citas_subtitle",
+                fields: () => `
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-file-alt"></i> Tipo de trámite
+                            <i class="fas fa-file-alt"></i> ${t('citas_type_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-clipboard-list label-icon"></i> Trámite que necesitas *</label>
+                            <label><i class="fas fa-clipboard-list label-icon"></i> ${t('tramite_label')}</label>
                             <div class="input-wrapper select-wrapper">
                                 <i class="fas fa-file-signature input-icon"></i>
-                                <select id="detail_tramite" required>
-                                    <option value="">Selecciona una opción...</option>
-                                    <option value="Extranjería (TIE, Prórroga, Nacionalidad)">Extranjería (TIE, Prórroga, Nacionalidad)</option>
-                                    <option value="Registro Civil">Registro Civil</option>
-                                    <option value="DNI/Pasaporte">DNI/Pasaporte</option>
-                                    <option value="Otro">Otro (especificar en comentarios)</option>
+                                <select id="detail_tramite" data-field="tramite" required>
+                                    <option value="">${t('tramite_placeholder_opt')}</option>
+                                    <option value="${t('tramite_opt_extranjeria')}">${t('tramite_opt_extranjeria')}</option>
+                                    <option value="${t('tramite_opt_registro')}">${t('tramite_opt_registro')}</option>
+                                    <option value="${t('tramite_opt_dni')}">${t('tramite_opt_dni')}</option>
+                                    <option value="${t('tramite_opt_otro')}">${t('tramite_opt_otro')}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user-tie label-icon"></i> Nombre del interesado (si es distinto)</label>
+                            <label><i class="fas fa-user-tie label-icon"></i> ${t('interesado_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-user input-icon"></i>
-                                <input type="text" id="detail_interesado" placeholder="Ej: María López">
+                                <input type="text" id="detail_interesado" placeholder="${t('interesado_ph')}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-bolt label-icon"></i> Urgencia</label>
+                            <label><i class="fas fa-bolt label-icon"></i> ${t('urgencia_label')}</label>
                             <div class="input-wrapper select-wrapper">
                                 <i class="fas fa-stopwatch input-icon"></i>
                                 <select id="detail_urgencia">
-                                    <option value="Normal">Normal (1-2 semanas)</option>
-                                    <option value="Urgente">Urgente (lo antes posible)</option>
+                                    <option value="${t('urgencia_opt_normal')}">${t('urgencia_opt_normal')}</option>
+                                    <option value="${t('urgencia_opt_urgente')}">${t('urgencia_opt_urgente')}</option>
                                 </select>
                             </div>
                         </div>
@@ -1458,33 +1955,33 @@
                 `
             },
             inmobiliaria: {
-                title: "Servicio Inmobiliario",
-                subtitle: "¿Buscas comprar, vender o alquilar en Murcia?",
-                fields: `
+                titleKey: "cfg_inmobiliaria_title",
+                subtitleKey: "cfg_inmobiliaria_subtitle",
+                fields: () => `
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-home"></i> Operación
+                            <i class="fas fa-home"></i> ${t('inm_operation_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-handshake label-icon"></i> ¿Qué deseas hacer? *</label>
+                            <label><i class="fas fa-handshake label-icon"></i> ${t('operacion_label')}</label>
                             <div class="input-wrapper select-wrapper">
                                 <i class="fas fa-key input-icon"></i>
-                                <select id="detail_operacion" required>
-                                    <option value="Comprar">Comprar una propiedad</option>
-                                    <option value="Vender">Vender una propiedad</option>
-                                    <option value="Alquilar">Alquilar una propiedad</option>
+                                <select id="detail_operacion" data-field="operacion" required>
+                                    <option value="${t('operacion_opt_comprar')}">${t('operacion_opt_comprar')}</option>
+                                    <option value="${t('operacion_opt_vender')}">${t('operacion_opt_vender')}</option>
+                                    <option value="${t('operacion_opt_alquilar')}">${t('operacion_opt_alquilar')}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-building label-icon"></i> Tipo de propiedad *</label>
+                            <label><i class="fas fa-building label-icon"></i> ${t('propiedad_label')}</label>
                             <div class="input-wrapper select-wrapper">
                                 <i class="fas fa-home input-icon"></i>
-                                <select id="detail_propiedad" required>
-                                    <option value="Piso/Apartamento">Piso/Apartamento</option>
-                                    <option value="Casa/Chalet">Casa/Chalet</option>
-                                    <option value="Local Comercial">Local Comercial</option>
-                                    <option value="Terreno">Terreno</option>
+                                <select id="detail_propiedad" data-field="propiedad" required>
+                                    <option value="${t('propiedad_opt_piso')}">${t('propiedad_opt_piso')}</option>
+                                    <option value="${t('propiedad_opt_casa')}">${t('propiedad_opt_casa')}</option>
+                                    <option value="${t('propiedad_opt_local')}">${t('propiedad_opt_local')}</option>
+                                    <option value="${t('propiedad_opt_terreno')}">${t('propiedad_opt_terreno')}</option>
                                 </select>
                             </div>
                         </div>
@@ -1492,20 +1989,20 @@
 
                     <div class="form-section">
                         <div class="form-section-title">
-                            <i class="fas fa-map-marked-alt"></i> Preferencias
+                            <i class="fas fa-map-marked-alt"></i> ${t('inm_pref_section')}
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-marker-alt label-icon"></i> Zona de interés en Murcia</label>
+                            <label><i class="fas fa-map-marker-alt label-icon"></i> ${t('zona_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-location-arrow input-icon"></i>
-                                <input type="text" id="detail_zona" placeholder="Ej: Alcantarilla, Murcia centro...">
+                                <input type="text" id="detail_zona" placeholder="${t('zona_ph')}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-euro-sign label-icon"></i> Presupuesto aproximado</label>
+                            <label><i class="fas fa-euro-sign label-icon"></i> ${t('presupuesto_label')}</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-wallet input-icon"></i>
-                                <input type="text" id="detail_presupuesto" placeholder="Ej: 150.000€">
+                                <input type="text" id="detail_presupuesto" placeholder="${t('presupuesto_ph')}">
                             </div>
                         </div>
                     </div>
@@ -1544,9 +2041,9 @@
             appState.serviceName = element.querySelector('h4').innerText;
             
             const config = serviceConfig[serviceKey];
-            document.getElementById('step2Title').innerText = config.title;
-            document.getElementById('step2Subtitle').innerText = config.subtitle;
-            document.getElementById('dynamicFields').innerHTML = config.fields;
+            document.getElementById('step2Title').innerText = t(config.titleKey);
+            document.getElementById('step2Subtitle').innerText = t(config.subtitleKey);
+            document.getElementById('dynamicFields').innerHTML = config.fields();
             
             setTimeout(() => { showStep(2); }, 200);
         }
@@ -1667,7 +2164,7 @@
                 });
 
                 if (!isValid) {
-                    alert('Por favor, completa todos los campos obligatorios marcados con *');
+                    alert(t('alert_required'));
                     return;
                 }
             } else if (appState.currentStep === 3) {
@@ -1702,13 +2199,13 @@
             const container = document.getElementById('summaryContainer');
             let html = `
                 <div class="summary-item">
-                    <span class="summary-label">Servicio</span>
+                    <span class="summary-label">${t('sum_servicio')}</span>
                     <span class="summary-value">${appState.serviceName}</span>
                 </div>
             `;
 
             for (const [key, value] of Object.entries(appState.details)) {
-                const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const label = t('fl_' + key);
                 if (key === 'marca' && !value) continue;
                 html += `
                     <div class="summary-item">
@@ -1720,11 +2217,11 @@
 
             html += `
                 <div class="summary-item">
-                    <span class="summary-label">Nombre</span>
+                    <span class="summary-label">${t('sum_nombre')}</span>
                     <span class="summary-value">${appState.contact.nombre}</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Teléfono</span>
+                    <span class="summary-label">${t('sum_telefono')}</span>
                     <span class="summary-value">${appState.contact.telefono}</span>
                 </div>
             `;
@@ -1732,8 +2229,8 @@
             if (appState.contact.comentarios) {
                 html += `
                     <div class="summary-item" style="flex-direction: column; gap: 0.5rem;">
-                        <span class="summary-label">Comentarios</span>
-                        <span class="summary-value" style="text-align: left; font-weight: 400; font-size: 0.9rem;">${appState.contact.comentarios}</span>
+                        <span class="summary-label">${t('sum_comentarios')}</span>
+                        <span class="summary-value" style="text-align: start; font-weight: 400; font-size: 0.9rem;">${appState.contact.comentarios}</span>
                     </div>
                 `;
             }
@@ -1741,23 +2238,23 @@
         }
 
         function sendToWhatsApp() {
-            let message = `*NUEVA SOLICITUD WEB - MULTISERVICIOS NASSIM*%0A%0A`;
-            message += `*Servicio:* ${appState.serviceName}%0A`;
-            message += `*Cliente:* ${appState.contact.nombre}%0A`;
-            message += `*Teléfono:* ${appState.contact.telefono}%0A%0A`;
+            let message = `*${t('wa_header')}*%0A%0A`;
+            message += `*${t('wa_servicio')}:* ${appState.serviceName}%0A`;
+            message += `*${t('wa_cliente')}:* ${appState.contact.nombre}%0A`;
+            message += `*${t('wa_telefono')}:* ${appState.contact.telefono}%0A%0A`;
             
-            message += `*DETALLES:*%0A`;
+            message += `*${t('wa_detalles')}:*%0A`;
             for (const [key, value] of Object.entries(appState.details)) {
-                const label = key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const label = t('fl_' + key);
                 if (key === 'marca' && !value) continue;
                 message += `• ${label}: ${value}%0A`;
             }
 
             if (appState.contact.comentarios) {
-                message += `%0A*Comentarios:* ${appState.contact.comentarios}`;
+                message += `%0A*${t('wa_comentarios')}:* ${appState.contact.comentarios}`;
             }
 
-            message += `%0A%0AEnviado desde la web de Multiservicios Nassim.`;
+            message += `%0A%0A${t('wa_footer')}`;
 
             const phone = "34631419471";
             const url = `https://wa.me/${phone}?text=${message}`;
@@ -1828,47 +2325,13 @@
         // ==========================================
         // MODAL DE POLÍTICAS (COOKIES / PRIVACIDAD)
         // ==========================================
-        const policyContent = {
-            cookies: {
-                title: 'Política de Cookies',
-                html: `
-                    <p>En Multiservicios Nassim utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación, analizar el uso del sitio y ofrecerte contenido adecuado a tus preferencias.</p>
-                    <h4>¿Qué son las cookies?</h4>
-                    <p>Son pequeños archivos que se almacenan en tu navegador cuando visitas nuestra web, y que permiten recordar información entre sesiones.</p>
-                    <h4>Tipos de cookies que utilizamos</h4>
-                    <ul>
-                        <li><strong>Técnicas:</strong> necesarias para el funcionamiento básico del sitio (navegación entre pasos del formulario, por ejemplo).</li>
-                        <li><strong>Analíticas:</strong> nos ayudan a entender cómo se usa la web para mejorarla.</li>
-                        <li><strong>Funcionales:</strong> recuerdan tus preferencias para ofrecerte una experiencia más personalizada.</li>
-                    </ul>
-                    <h4>Cómo gestionar las cookies</h4>
-                    <p>Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de tu navegador. Ten en cuenta que si desactivas las cookies, algunas funciones del sitio podrían no funcionar correctamente.</p>
-                `
-            },
-            privacidad: {
-                title: 'Política de Privacidad',
-                html: `
-                    <p>En Multiservicios Nassim nos comprometemos a proteger tu privacidad y tus datos personales conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).</p>
-                    <h4>Responsable del tratamiento</h4>
-                    <p>Multiservicios Nassim, con actividad en Alcantarilla (Murcia), es responsable del tratamiento de los datos que nos facilitas a través de este formulario.</p>
-                    <h4>Datos que recopilamos</h4>
-                    <p>Nombre, teléfono, correo electrónico y los detalles del servicio solicitado (viajes, trámites, envíos o inmobiliaria) que nos indiques voluntariamente.</p>
-                    <h4>Finalidad</h4>
-                    <p>Gestionar tu solicitud de información o presupuesto y contactar contigo por teléfono, WhatsApp o email para dar respuesta a tu petición.</p>
-                    <h4>Tus derechos</h4>
-                    <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos contactando con nosotros a través de los canales indicados en esta web.</p>
-                    <h4>Conservación</h4>
-                    <p>Tus datos se conservarán únicamente durante el tiempo necesario para gestionar tu solicitud, salvo obligación legal de conservarlos por más tiempo.</p>
-                `
-            }
-        };
-
         function openPolicyModal(type) {
-            const data = policyContent[type];
-            if (!data) return;
-            document.getElementById('policyModalTitle').innerText = data.title;
-            document.getElementById('policyModalBody').innerHTML = data.html;
+            const titleKey = type === 'cookies' ? 'cookies_title' : 'privacy_title';
+            const bodyKey = type === 'cookies' ? 'cookies_body' : 'privacy_body';
+            document.getElementById('policyModalTitle').innerText = t(titleKey);
+            document.getElementById('policyModalBody').innerHTML = t(bodyKey);
             document.getElementById('policyModalOverlay').classList.add('open');
+            document.getElementById('policyModalOverlay').dataset.openType = type;
             document.body.style.overflow = 'hidden';
         }
 
@@ -1887,6 +2350,79 @@
 
         const footerYearEl = document.getElementById('footerYear');
         if (footerYearEl) footerYearEl.innerText = new Date().getFullYear();
+
+        // ==========================================
+        // 🌐 MOTOR DE IDIOMAS: aplicar, cambiar, detectar
+        // ==========================================
+        function applyTranslations() {
+            document.title = t('meta_title');
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', t('meta_description'));
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.innerText = t(el.getAttribute('data-i18n'));
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+            });
+
+            // Re-renderizar el paso 2 (campos dinámicos) si hay un servicio activo
+            if (appState.service) {
+                const config = serviceConfig[appState.service];
+                document.getElementById('step2Title').innerText = t(config.titleKey);
+                document.getElementById('step2Subtitle').innerText = t(config.subtitleKey);
+                document.getElementById('dynamicFields').innerHTML = config.fields();
+                const selected = document.querySelector('.service-option.selected h4');
+                if (selected) appState.serviceName = selected.innerText;
+            }
+
+            // Si el modal de políticas está abierto, refrescar su contenido
+            const overlay = document.getElementById('policyModalOverlay');
+            if (overlay && overlay.classList.contains('open') && overlay.dataset.openType) {
+                openPolicyModal(overlay.dataset.openType);
+            }
+
+            // Botones del selector de idioma activos
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === currentLang);
+            });
+        }
+
+        function setLanguage(lang, persist = true) {
+            if (!SUPPORTED_LANGS.includes(lang)) lang = 'es';
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = RTL_LANGS.includes(lang) ? 'rtl' : 'ltr';
+            if (persist) {
+                try { localStorage.setItem('nassim_lang', lang); } catch (e) { /* almacenamiento no disponible */ }
+            }
+            applyTranslations();
+        }
+
+        function detectInitialLanguage() {
+            let saved = null;
+            try { saved = localStorage.getItem('nassim_lang'); } catch (e) { /* almacenamiento no disponible */ }
+            if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+
+            const browserLangs = navigator.languages && navigator.languages.length
+                ? navigator.languages
+                : [navigator.language || 'es'];
+
+            for (const bl of browserLangs) {
+                const code = bl.toLowerCase().split('-')[0];
+                if (SUPPORTED_LANGS.includes(code)) return code;
+            }
+            return 'es';
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        });
+
+        setLanguage(detectInitialLanguage(), false);
     </script>
 </body>
 </html>
