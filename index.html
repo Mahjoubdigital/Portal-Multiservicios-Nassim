@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Portal de Servicios | Multiservicios Nassim</title>
     <meta name="description" content="Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.">
+
+    <!-- Open Graph / WhatsApp / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://portal-multiservicios-nassim.vercel.app/">
+    <meta property="og:title" content="Portal de Servicios | Multiservicios Nassim">
+    <meta property="og:description" content="Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.">
+    <meta property="og:image" content="https://portal-multiservicios-nassim.vercel.app/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Portal de Servicios | Multiservicios Nassim">
+    <meta name="twitter:description" content="Aplicación web para solicitar servicios de viajes, trámites e inmobiliaria en Alcantarilla.">
+    <meta name="twitter:image" content="https://portal-multiservicios-nassim.vercel.app/og-image.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -747,6 +763,144 @@
         }
 
         .hidden { display: none !important; }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        .app-footer {
+            text-align: center;
+            padding: 1.75rem 1.5rem 2.25rem;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.85rem;
+        }
+
+        .app-footer p {
+            margin: 0 0 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 0.2rem 0.1rem;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-sep {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ==========================================
+           MODAL DE POLÍTICAS (POP-UP)
+           ========================================== */
+        .policy-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 37, 64, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+
+        .policy-modal-overlay.open {
+            display: flex;
+        }
+
+        .policy-modal {
+            background: var(--surface);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 620px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            animation: policyModalIn 0.2s ease;
+        }
+
+        @keyframes policyModalIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .policy-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .policy-modal-header h3 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+
+        .policy-modal-close {
+            background: #F1F5F9;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .policy-modal-close:hover {
+            background: #E2E8F0;
+        }
+
+        .policy-modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            color: var(--text);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .policy-modal-body h4 {
+            color: var(--primary);
+            margin: 1.25rem 0 0.5rem;
+            font-size: 1rem;
+        }
+
+        .policy-modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .policy-modal-body p, .policy-modal-body ul {
+            margin: 0 0 0.75rem;
+        }
+
+        .policy-modal-body ul {
+            padding-left: 1.25rem;
+        }
         
         @media (max-width: 480px) {
             .app-container { padding: 1.25rem 1rem; }
@@ -983,6 +1137,29 @@
         </div>
 
     </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; <span id="footerYear"></span> Multiservicios Nassim. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <button type="button" class="footer-link" onclick="openPolicyModal('cookies')">Política de Cookies</button>
+            <span class="footer-sep">·</span>
+            <button type="button" class="footer-link" onclick="openPolicyModal('privacidad')">Política de Privacidad</button>
+        </div>
+    </footer>
+
+    <!-- Modal de políticas -->
+    <div class="policy-modal-overlay" id="policyModalOverlay" onclick="closePolicyModalOutside(event)">
+        <div class="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle">
+            <div class="policy-modal-header">
+                <h3 id="policyModalTitle">Política</h3>
+                <button type="button" class="policy-modal-close" onclick="closePolicyModal()" aria-label="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="policy-modal-body" id="policyModalBody"></div>
+        </div>
+    </div>
 
     <script>
         // ==========================================
@@ -1620,6 +1797,69 @@
                 }
             });
         }
+
+        // ==========================================
+        // MODAL DE POLÍTICAS (COOKIES / PRIVACIDAD)
+        // ==========================================
+        const policyContent = {
+            cookies: {
+                title: 'Política de Cookies',
+                html: `
+                    <p>En Multiservicios Nassim utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación, analizar el uso del sitio y ofrecerte contenido adecuado a tus preferencias.</p>
+                    <h4>¿Qué son las cookies?</h4>
+                    <p>Son pequeños archivos que se almacenan en tu navegador cuando visitas nuestra web, y que permiten recordar información entre sesiones.</p>
+                    <h4>Tipos de cookies que utilizamos</h4>
+                    <ul>
+                        <li><strong>Técnicas:</strong> necesarias para el funcionamiento básico del sitio (navegación entre pasos del formulario, por ejemplo).</li>
+                        <li><strong>Analíticas:</strong> nos ayudan a entender cómo se usa la web para mejorarla.</li>
+                        <li><strong>Funcionales:</strong> recuerdan tus preferencias para ofrecerte una experiencia más personalizada.</li>
+                    </ul>
+                    <h4>Cómo gestionar las cookies</h4>
+                    <p>Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de tu navegador. Ten en cuenta que si desactivas las cookies, algunas funciones del sitio podrían no funcionar correctamente.</p>
+                `
+            },
+            privacidad: {
+                title: 'Política de Privacidad',
+                html: `
+                    <p>En Multiservicios Nassim nos comprometemos a proteger tu privacidad y tus datos personales conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).</p>
+                    <h4>Responsable del tratamiento</h4>
+                    <p>Multiservicios Nassim, con actividad en Alcantarilla (Murcia), es responsable del tratamiento de los datos que nos facilitas a través de este formulario.</p>
+                    <h4>Datos que recopilamos</h4>
+                    <p>Nombre, teléfono, correo electrónico y los detalles del servicio solicitado (viajes, trámites, envíos o inmobiliaria) que nos indiques voluntariamente.</p>
+                    <h4>Finalidad</h4>
+                    <p>Gestionar tu solicitud de información o presupuesto y contactar contigo por teléfono, WhatsApp o email para dar respuesta a tu petición.</p>
+                    <h4>Tus derechos</h4>
+                    <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos contactando con nosotros a través de los canales indicados en esta web.</p>
+                    <h4>Conservación</h4>
+                    <p>Tus datos se conservarán únicamente durante el tiempo necesario para gestionar tu solicitud, salvo obligación legal de conservarlos por más tiempo.</p>
+                `
+            }
+        };
+
+        function openPolicyModal(type) {
+            const data = policyContent[type];
+            if (!data) return;
+            document.getElementById('policyModalTitle').innerText = data.title;
+            document.getElementById('policyModalBody').innerHTML = data.html;
+            document.getElementById('policyModalOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policyModalOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function closePolicyModalOutside(e) {
+            if (e.target.id === 'policyModalOverlay') closePolicyModal();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePolicyModal();
+        });
+
+        const footerYearEl = document.getElementById('footerYear');
+        if (footerYearEl) footerYearEl.innerText = new Date().getFullYear();
     </script>
 </body>
 </html>
