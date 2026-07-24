@@ -1002,6 +1002,191 @@
         .policy-modal-body ul {
             padding-left: 1.25rem;
         }
+
+        /* ==========================================
+           WIDGET DE CHAT DE WHATSAPP
+           ========================================== */
+        .wa-widget-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 1.25rem;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .wa-widget-overlay.open {
+            display: flex;
+        }
+
+        .wa-widget {
+            pointer-events: auto;
+            width: 100%;
+            max-width: 340px;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: waWidgetIn 0.22s ease;
+        }
+
+        @keyframes waWidgetIn {
+            from { opacity: 0; transform: translateY(16px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .wa-widget-header {
+            background: #075E54;
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            padding: 1rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .wa-widget-header-info {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .wa-widget-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+
+        .wa-widget-header h4 {
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            margin: 0 0 0.15rem;
+        }
+
+        .wa-widget-status {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .wa-widget-status i {
+            font-size: 0.5rem;
+            color: #4ADE80;
+        }
+
+        .wa-widget-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #FFFFFF;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .wa-widget-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .wa-widget-body {
+            background: #E5DDD5;
+            padding: 1.1rem;
+            min-height: 90px;
+        }
+
+        .wa-widget-bubble {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border-top-left-radius: 2px;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            max-width: 88%;
+        }
+
+        .wa-widget-footer {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.6rem;
+            padding: 0.75rem;
+            background: var(--surface);
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .wa-widget-textarea {
+            flex: 1;
+            resize: none;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 0.6rem 0.75rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .wa-widget-textarea:focus {
+            border-color: #25D366;
+        }
+
+        .wa-widget-send {
+            background: #25D366;
+            border: none;
+            color: #FFFFFF;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .wa-widget-send:hover {
+            background: #1FAF57;
+            transform: scale(1.05);
+        }
+
+        html[dir="rtl"] .wa-widget-overlay {
+            justify-content: flex-start;
+        }
+
+        html[dir="rtl"] .wa-widget-bubble {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .wa-widget {
+                max-width: 100%;
+            }
+        }
         
         @media (max-width: 600px) {
             /* Aumento de legibilidad en móvil */
@@ -1075,10 +1260,10 @@
                 <button type="button" class="lang-btn" data-lang="fr" aria-label="Français" title="Français"><span class="lang-flag">🇫🇷</span></button>
                 <button type="button" class="lang-btn" data-lang="ar" aria-label="العربية" title="العربية"><span class="lang-flag">🇸🇦</span></button>
             </div>
-            <a href="https://wa.me/34631419471" target="_blank" rel="noopener" class="btn-icon" aria-label="WhatsApp">
+            <button type="button" class="btn-icon" aria-label="WhatsApp" onclick="toggleWhatsAppWidget()">
                 <i class="fab fa-whatsapp"></i>
                 <span>WhatsApp</span>
-            </a>
+            </button>
             <a href="tel:+34631419471" class="btn-icon" aria-label="Llamar" data-i18n-aria="header_llamar_aria">
                 <i class="fas fa-phone"></i>
                 <span data-i18n="header_llamar">Llamar</span>
@@ -1295,6 +1480,37 @@
         </div>
     </div>
 
+    <!-- Widget de chat de WhatsApp -->
+    <div class="wa-widget-overlay" id="waWidgetOverlay" onclick="closeWhatsAppWidgetOutside(event)">
+        <div class="wa-widget" role="dialog" aria-modal="true" aria-labelledby="waWidgetTitle">
+            <div class="wa-widget-header">
+                <div class="wa-widget-header-info">
+                    <div class="wa-widget-avatar"><i class="fas fa-layer-group"></i></div>
+                    <div>
+                        <h4 id="waWidgetTitle">Multiservicios Nassim</h4>
+                        <span class="wa-widget-status">
+                            <i class="fas fa-circle"></i> <span data-i18n="wa_widget_status">En línea</span>
+                        </span>
+                    </div>
+                </div>
+                <button type="button" class="wa-widget-close" onclick="closeWhatsAppWidget()" aria-label="Cerrar" data-i18n-aria="policy_close_aria">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="wa-widget-body">
+                <div class="wa-widget-bubble" data-i18n="wa_widget_welcome">
+                    ¡Hola! 👋 ¿En qué podemos ayudarte? Escribe tu mensaje y te responderemos por WhatsApp lo antes posible.
+                </div>
+            </div>
+            <div class="wa-widget-footer">
+                <textarea id="waWidgetInput" class="wa-widget-textarea" rows="2" placeholder="Escribe tu mensaje..." data-i18n-placeholder="wa_widget_placeholder"></textarea>
+                <button type="button" class="wa-widget-send" onclick="sendWhatsAppWidgetMessage()" aria-label="Enviar">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ==========================================
         // ESTADO Y CONFIGURACIÓN
@@ -1342,6 +1558,8 @@
                 footer_rights: "Multiservicios Nassim. Todos los derechos reservados.",
                 footer_cookies: "Política de Cookies", footer_privacy: "Política de Privacidad",
                 policy_close_aria: "Cerrar",
+                wa_widget_status: "En línea", wa_widget_placeholder: "Escribe tu mensaje...",
+                wa_widget_welcome: "¡Hola! 👋 ¿En qué podemos ayudarte? Escribe tu mensaje y te responderemos por WhatsApp lo antes posible.",
                 alert_required: "Por favor, completa todos los campos obligatorios marcados con *",
                 cfg_equipaje_title: "Detalles del Envío", cfg_equipaje_subtitle: "Indica las características de tu equipaje o paquete.",
                 cfg_maritimo_title: "Detalles del Viaje Marítimo", cfg_maritimo_subtitle: "¿A dónde quieres navegar? Buscaremos las mejores rutas.",
@@ -1430,6 +1648,8 @@
                 footer_rights: "Multiservicios Nassim. All rights reserved.",
                 footer_cookies: "Cookie Policy", footer_privacy: "Privacy Policy",
                 policy_close_aria: "Close",
+                wa_widget_status: "Online", wa_widget_placeholder: "Type your message...",
+                wa_widget_welcome: "Hi! 👋 How can we help you? Write your message and we'll reply on WhatsApp as soon as possible.",
                 alert_required: "Please complete all required fields marked with *",
                 cfg_equipaje_title: "Shipping Details", cfg_equipaje_subtitle: "Tell us about your luggage or package.",
                 cfg_maritimo_title: "Ferry Trip Details", cfg_maritimo_subtitle: "Where do you want to sail? We'll find the best routes.",
@@ -1518,6 +1738,8 @@
                 footer_rights: "Multiservicios Nassim. Tous droits réservés.",
                 footer_cookies: "Politique de Cookies", footer_privacy: "Politique de Confidentialité",
                 policy_close_aria: "Fermer",
+                wa_widget_status: "En ligne", wa_widget_placeholder: "Écrivez votre message...",
+                wa_widget_welcome: "Bonjour ! 👋 Comment pouvons-nous vous aider ? Écrivez votre message, nous vous répondrons sur WhatsApp dès que possible.",
                 alert_required: "Veuillez compléter tous les champs obligatoires marqués d'un *",
                 cfg_equipaje_title: "Détails de l'Envoi", cfg_equipaje_subtitle: "Indiquez les caractéristiques de vos bagages ou colis.",
                 cfg_maritimo_title: "Détails du Voyage Maritime", cfg_maritimo_subtitle: "Où souhaitez-vous naviguer ? Nous trouverons les meilleurs itinéraires.",
@@ -1606,6 +1828,8 @@
                 footer_rights: "مالتيسيرفيسيوس ناسيم. جميع الحقوق محفوظة.",
                 footer_cookies: "سياسة ملفات تعريف الارتباط", footer_privacy: "سياسة الخصوصية",
                 policy_close_aria: "إغلاق",
+                wa_widget_status: "متصل الآن", wa_widget_placeholder: "اكتب رسالتك...",
+                wa_widget_welcome: "مرحبًا! 👋 كيف يمكننا مساعدتك؟ اكتب رسالتك وسنرد عليك عبر واتساب في أقرب وقت ممكن.",
                 alert_required: "يرجى استكمال جميع الحقول الإلزامية المميزة بعلامة *",
                 cfg_equipaje_title: "تفاصيل الشحنة", cfg_equipaje_subtitle: "أخبرنا بمواصفات أمتعتك أو طردك.",
                 cfg_maritimo_title: "تفاصيل الرحلة البحرية", cfg_maritimo_subtitle: "إلى أين تريد الإبحار؟ سنجد أفضل المسارات.",
@@ -2326,11 +2550,57 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closePolicyModal();
+            if (e.key === 'Escape') {
+                closePolicyModal();
+                closeWhatsAppWidget();
+            }
         });
 
         const footerYearEl = document.getElementById('footerYear');
         if (footerYearEl) footerYearEl.innerText = new Date().getFullYear();
+
+        // ==========================================
+        // WIDGET DE CHAT DE WHATSAPP
+        // ==========================================
+        const WA_PHONE = "34631419471";
+
+        function toggleWhatsAppWidget() {
+            const overlay = document.getElementById('waWidgetOverlay');
+            if (overlay.classList.contains('open')) {
+                closeWhatsAppWidget();
+            } else {
+                overlay.classList.add('open');
+                setTimeout(() => document.getElementById('waWidgetInput').focus(), 150);
+            }
+        }
+
+        function closeWhatsAppWidget() {
+            document.getElementById('waWidgetOverlay').classList.remove('open');
+        }
+
+        function closeWhatsAppWidgetOutside(e) {
+            if (e.target.id === 'waWidgetOverlay') closeWhatsAppWidget();
+        }
+
+        function sendWhatsAppWidgetMessage() {
+            const input = document.getElementById('waWidgetInput');
+            const text = input.value.trim();
+            if (!text) {
+                input.focus();
+                return;
+            }
+            const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+            input.value = '';
+            closeWhatsAppWidget();
+        }
+
+        document.getElementById('waWidgetInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendWhatsAppWidgetMessage();
+            }
+        });
 
         // ==========================================
         // 🌐 MOTOR DE IDIOMAS: aplicar, cambiar, detectar
